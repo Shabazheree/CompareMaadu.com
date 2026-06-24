@@ -34,7 +34,7 @@ html,body{height:100%;overflow:hidden}
 .mflags{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-bottom:24px}
 .mfl{padding:5px 12px;background:hsl(var(--card));border:1px solid hsl(var(--border));border-radius:20px;font-size:12px;cursor:pointer;transition:all .15s;font-weight:600;color:hsl(var(--muted-foreground));user-select:none}
 .mfl:hover,.mfl.on{border-color:var(--o);color:var(--o);background:rgba(249,115,22,.08)}
-.qgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;max-width:800px;margin:0 auto}
+.qgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:860px;margin:0 auto}
 .qcard{background:hsl(var(--card));border:1px solid hsl(var(--border));border-radius:12px;padding:13px;cursor:pointer;transition:all .2s;text-align:left}
 .qcard:hover{border-color:var(--o);transform:translateY(-2px);box-shadow:0 8px 24px rgba(249,115,22,.1)}
 .qci{font-size:22px;margin-bottom:6px}.qcn{font-size:13px;font-weight:700;margin-bottom:2px}.qcc{font-size:11px;color:hsl(var(--muted-foreground))}
@@ -69,7 +69,7 @@ html,body{height:100%;overflow:hidden}
 .carousel{position:relative;margin-bottom:12px;border-radius:16px;overflow:hidden;border:1px solid hsl(var(--border))}
 .car-vp{overflow:hidden;position:relative}
 .car-track{display:flex;transition:transform .42s cubic-bezier(.4,0,.2,1);will-change:transform}
-.car-slide{flex:0 0 100%;min-width:0;height:268px;position:relative;overflow:hidden}
+.car-slide{flex:0 0 100%;min-width:0;height:300px;position:relative;overflow:hidden}
 
 /* slide backgrounds */
 .sbg1{background:linear-gradient(160deg,#0f172a 0%,#1a2744 100%)}
@@ -122,11 +122,11 @@ html,body{height:100%;overflow:hidden}
 .deal-buybtn:hover{opacity:.88}
 
 /* SLIDE 5 — INTEL */
-.intel-verdict{font-size:13px;font-weight:700;color:var(--g);padding:8px 12px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);border-radius:8px;margin-bottom:8px}
-.intel-rows{display:flex;flex-direction:column;gap:7px;flex:1}
-.intel-row{display:flex;gap:10px;align-items:flex-start;padding:7px 10px;background:rgba(255,255,255,.06);border-radius:8px}
+.intel-verdict{font-size:12px;font-weight:700;color:var(--g);padding:6px 10px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);border-radius:7px;margin-bottom:6px}
+.intel-rows{display:flex;flex-direction:column;gap:4px;flex:1;overflow:hidden}
+.intel-row{display:flex;gap:8px;align-items:flex-start;padding:5px 9px;background:rgba(255,255,255,.07);border-radius:7px}
 .intel-icon{font-size:13px;flex-shrink:0;margin-top:1px}
-.intel-text{font-size:12px;color:rgba(255,255,255,.8);line-height:1.4}
+.intel-text{font-size:11.5px;color:rgba(255,255,255,.85);line-height:1.35}
 
 /* carousel navigation */
 .car-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:20;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.48);border:1px solid rgba(255,255,255,.15);color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;user-select:none;line-height:1;padding-bottom:1px}
@@ -298,9 +298,18 @@ html,body{height:100%;overflow:hidden}
 .gpi-loading{padding:36px;text-align:center;color:#94a3b8;font-size:13px}
 .gpi-loading .lring{margin:0 auto 10px}
 
-/* ── SETTINGS BUTTON (standalone mode) ── */
-#settingsbtn{padding:7px 10px;background:none;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;font-size:15px;flex-shrink:0;color:#64748b;line-height:1;transition:all .15s}
-#settingsbtn:hover{border-color:#FF7B00;color:#FF7B00}
+/* #settingsbtn now uses .iconbtn class */
+
+/* ── ICON BUTTONS (☰ menu, 🛒 cart) ── */
+.iconbtn{padding:7px 10px;background:none;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;font-size:15px;flex-shrink:0;color:#64748b;line-height:1;transition:all .15s;position:relative}
+.iconbtn:hover{border-color:#FF7B00;color:#FF7B00}
+/* ── HAMBURGER MENU ITEMS ── */
+.mitem{padding:10px 16px;font-size:13px;font-weight:600;color:#0f172a;cursor:pointer;transition:background .12s;display:flex;align-items:center;gap:8px;user-select:none}
+.mitem:hover{background:#fef7f0;color:#FF7B00}
+/* ── CART SAVE BUTTON on cards ── */
+.cartaddbtn{display:block;width:100%;padding:8px;text-align:center;border:1.5px solid #e2e8f0;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;background:#fff;color:#64748b;transition:all .15s;margin-bottom:6px}
+.cartaddbtn:hover{border-color:#FF7B00;color:#FF7B00;background:rgba(255,123,0,.04)}
+@media(max-width:700px){.qgrid{grid-template-columns:repeat(2,1fr)!important}}
 </style>
 </head>
 <body>
@@ -333,13 +342,30 @@ html,body{height:100%;overflow:hidden}
 </div>
 <div id="app">
 
+<!-- HAMBURGER MENU DROPDOWN -->
+<div id="menudrop" style="display:none;position:fixed;top:61px;left:0;z-index:600;background:#fff;border:1px solid #e2e8f0;border-radius:0 0 14px 0;box-shadow:4px 8px 28px rgba(0,0,0,.12);min-width:210px;padding:6px 0;font-family:'Plus Jakarta Sans',sans-serif">
+  <div class="mitem" onclick="goHome();hideMenuDrop()">🏠 Home</div>
+  <div class="mitem" onclick="showCartPanel();hideMenuDrop()">🛒 Cart <span id="cartcount2" style="background:#FF7B00;color:#fff;font-size:10px;padding:1px 7px;border-radius:10px;font-weight:800">0</span></div>
+  <div class="mitem" onclick="showKeyModal();hideMenuDrop()">⚙ API Settings</div>
+  <div style="height:1px;background:#f1f5f9;margin:5px 0"></div>
+  <div class="mitem" style="color:#94a3b8;font-size:11px;cursor:default;pointer-events:none;font-weight:500">CompareMaadu · AI Price Intel</div>
+</div>
+<!-- CART PANEL -->
+<div id="cartpanel" style="display:none;position:fixed;top:61px;right:0;z-index:600;background:#fff;border-left:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;border-radius:0 0 0 14px;box-shadow:-4px 8px 28px rgba(0,0,0,.1);width:300px;max-height:68vh;overflow-y:auto;font-family:'Plus Jakarta Sans',sans-serif">
+  <div style="padding:14px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f1f5f9;position:sticky;top:0;background:#fff;z-index:1">
+    <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#0f172a">🛒 Saved Items</div>
+    <button onclick="hideCartPanel()" style="background:none;border:none;font-size:22px;cursor:pointer;color:#94a3b8;line-height:1;padding:0 4px">×</button>
+  </div>
+  <div id="cartitems" style="padding:12px"><div style="text-align:center;padding:20px 10px;color:#94a3b8;font-size:12px;line-height:1.6">No saved items yet.<br>Click <strong style="color:#64748b">🛒 Save</strong> on any result card to add here.</div></div>
+</div>
 <!-- TOPBAR -->
 <div class="tb">
-  <div class="brand">
+  <button id="menubtn" class="iconbtn" onclick="toggleMenu()" title="Menu" aria-label="Menu" style="font-size:18px;padding:6px 9px">☰</button>
+  <div class="brand" onclick="goHome()" style="cursor:pointer;flex-shrink:0" title="Home">
     <div class="bmark">CM</div>
-    <span class="bname">comparemaadu<span style="font-size:10px;color:#94a3b8;font-weight:700;letter-spacing:0">.com</span></span>
   </div>
   <div class="srow">
+    <span class="bname" onclick="goHome()" style="cursor:pointer;flex-shrink:0;white-space:nowrap" title="Home">CompareMaadu<span style="font-size:10px;color:#94a3b8;font-weight:700;letter-spacing:0">.com</span></span>
     <div class="sac-wrap">
       <input class="sinput" id="si" type="text" placeholder="Search any product in any market…" autocomplete="off" spellcheck="false" style="width:100%"/>
       <div class="sac-drop hidden" id="sacdrop"></div>
@@ -356,7 +382,8 @@ html,body{height:100%;overflow:hidden}
     <option value="DE">🇩🇪 Germany</option>
     <option value="JP">🇯🇵 Japan</option>
   </select>
-  <button id="settingsbtn" onclick="showKeyModal()" title="API Key Settings">⚙</button>
+  <button id="cartbtn" class="iconbtn" onclick="showCartPanel()" title="Cart" style="position:relative">🛒<span id="cartdot" style="display:none;position:absolute;top:-3px;right:-3px;background:#FF7B00;color:#fff;font-size:9px;font-weight:800;padding:0 4px;border-radius:8px;min-width:14px;text-align:center;line-height:16px">0</span></button>
+  <button id="settingsbtn" class="iconbtn" onclick="showKeyModal()" title="API Key Settings">⚙</button>
 </div>
 
 <!-- AI DISCLAIMER BANNER -->
@@ -866,6 +893,7 @@ function renderCard(l,isBest){
       ${l.seller?`<div class="pc-meta-line"><span class="mi">🏪</span><span>${esc(l.seller)}</span></div>`:''}
     </div>
     ${l.key_highlight?`<div class="pc-highlight">${esc(l.key_highlight)}</div>`:''}
+    <button class="cartaddbtn" onclick="addToCart(this.dataset.q,this.dataset.e,this.dataset.c)" data-q="${esc((S.data&&S.data.query_interpreted)||S.query||'')}" data-e="${esc((S.data&&S.data.emoji)||'🛍️')}" data-c="${esc((S.data&&S.data.category)||'General')}">🛒 Save to Cart</button>
     <a href="#" data-url="${esc(l.search_url||'')}" class="buybtn ${isBest?'best':''}">Buy on ${esc(l.platform)} →</a>
   </div>`;
 }
@@ -1486,6 +1514,96 @@ Return ONLY this exact JSON structure — no markdown, no backticks, no explanat
   }finally{btn.disabled=false;}
 }
 
+
+/* ── HOME NAVIGATION ── */
+function goHome(){
+  document.getElementById('ws').classList.remove('hidden');
+  document.getElementById('resultscr').classList.add('hidden');
+  document.getElementById('loadscr').classList.add('hidden');
+  const si=document.getElementById('si');if(si){si.value='';}
+  document.getElementById('sacdrop')?.classList.add('hidden');
+  hideMenuDrop();hideCartPanel();
+}
+
+/* ── HAMBURGER MENU ── */
+function toggleMenu(){
+  const m=document.getElementById('menudrop');
+  const c=document.getElementById('cartpanel');
+  if(c)c.style.display='none';
+  if(m)m.style.display=(m.style.display==='block'?'none':'block');
+}
+function hideMenuDrop(){const m=document.getElementById('menudrop');if(m)m.style.display='none';}
+
+/* ── CART ── */
+function showCartPanel(){
+  hideMenuDrop();
+  const p=document.getElementById('cartpanel');if(!p)return;
+  renderCartItems();
+  p.style.display=(p.style.display==='block'?'none':'block');
+}
+function hideCartPanel(){const p=document.getElementById('cartpanel');if(p)p.style.display='none';}
+
+function getCart(){try{return JSON.parse(localStorage.getItem('cm_cart')||'[]');}catch(_){return[];}}
+function saveCartData(c){try{localStorage.setItem('cm_cart',JSON.stringify(c));}catch(_){}}
+
+function addToCart(query,emoji,category){
+  if(!query)return;
+  const c=getCart();
+  if(!c.find(i=>i.q.toLowerCase()===query.toLowerCase())){
+    c.push({q:query,e:emoji||'🛍️',cat:category||'General',ts:Date.now()});
+    saveCartData(c);updateCartCount();
+    showToast(emoji+' Saved to cart');
+  } else {
+    showToast('Already saved!');
+  }
+}
+
+function removeFromCart(query){
+  saveCartData(getCart().filter(i=>i.q.toLowerCase()!==query.toLowerCase()));
+  updateCartCount();renderCartItems();
+}
+
+function updateCartCount(){
+  const n=getCart().length;
+  const d=document.getElementById('cartdot');
+  const d2=document.getElementById('cartcount2');
+  if(d){d.textContent=n;d.style.display=n>0?'block':'none';}
+  if(d2)d2.textContent=n;
+}
+
+function renderCartItems(){
+  const c=getCart();
+  const el=document.getElementById('cartitems');if(!el)return;
+  if(!c.length){
+    el.innerHTML='<div style="text-align:center;padding:24px 10px;color:#94a3b8;font-size:12px;line-height:1.6">No saved items yet.<br>Click <strong style="color:#64748b">🛒 Save</strong> on any result card.</div>';
+    return;
+  }
+  el.innerHTML=c.slice().reverse().map(i=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#f8fafc;border-radius:10px;margin-bottom:8px;border:1px solid #e8edf2">
+      <span style="font-size:22px;flex-shrink:0">${i.e}</span>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:700;color:#0f172a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(i.q)}</div>
+        <div style="font-size:11px;color:#94a3b8;margin-top:1px">${esc(i.cat)}</div>
+      </div>
+      <button onclick="document.getElementById('si').value='${esc(i.q).replace(/'/g,'&apos;')}';hideCartPanel();runSearch('${esc(i.q).replace(/'/g,'&apos;')}')" style="padding:5px 11px;background:#FF7B00;color:#fff;border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0;white-space:nowrap">Search</button>
+      <button onclick="removeFromCart('${esc(i.q).replace(/'/g,'&apos;')}')" style="padding:5px 9px;background:none;border:1px solid #e2e8f0;border-radius:7px;font-size:13px;cursor:pointer;color:#94a3b8;flex-shrink:0;line-height:1">✕</button>
+    </div>`).join('');
+}
+
+/* ── TOAST ── */
+function showToast(msg){
+  let t=document.getElementById('cmtoast');
+  if(!t){
+    t=document.createElement('div');t.id='cmtoast';
+    t.style.cssText='position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(10px);background:#0f172a;color:#fff;padding:10px 22px;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:600;z-index:9999;transition:all .25s;pointer-events:none;opacity:0;box-shadow:0 4px 16px rgba(0,0,0,.25)';
+    document.body.appendChild(t);
+  }
+  t.textContent=msg;
+  t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0)';
+  clearTimeout(t._t);
+  t._t=setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(-50%) translateY(10px)';},2000);
+}
+
 /* ──────── EVENTS ──────── */
 document.getElementById('sbtn').addEventListener('click',()=>runSearch(document.getElementById('si').value));
 document.getElementById('si').addEventListener('keydown',e=>{if(e.key==='Enter')runSearch(e.target.value);});
@@ -1521,10 +1639,14 @@ function openLink(url){
     if(!w){const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';document.body.appendChild(a);a.click();document.body.removeChild(a);}
   }catch(e){const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';document.body.appendChild(a);a.click();document.body.removeChild(a);}
 }
-document.addEventListener('click',function(ev){const el=ev.target.closest('[data-url]');if(el){ev.preventDefault();openLink(el.dataset.url);}});
+document.addEventListener('click',function(ev){
+  const el=ev.target.closest('[data-url]');if(el){ev.preventDefault();openLink(el.dataset.url);}
+  if(!ev.target.closest('#menubtn')&&!ev.target.closest('#menudrop'))hideMenuDrop();
+  if(!ev.target.closest('#cartbtn')&&!ev.target.closest('#cartpanel'))hideCartPanel();
+});
 
 /* ──────── INIT ──────── */
-renderQGrid(); syncMarket();
+renderQGrid(); syncMarket(); updateCartCount();
 </script>
 </body>
 </html>
