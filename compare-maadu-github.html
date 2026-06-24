@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>comparemaadu.com</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+:root{--o:#FF7B00;--p:#D96800;--g:#16a34a;--gb:rgba(22,163,74,.09);--a:#FF9A40;--r:#FF7B00;--b:#FF9A40}
+#app{height:100%;overflow-y:auto;background:#fafafa;color:#0f172a;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;--background:210 40% 98.04%;--foreground:222.2 47.4% 11.2%;--card:0 0% 100%;--card-foreground:222.2 47.4% 11.2%;--border:220 13% 91%;--muted-foreground:215.4 16.3% 46.9%;--muted:210 40% 96.1%;--input:214.3 31.8% 91.4%}
+
+/* TOPBAR */
+.tb{position:sticky;top:0;z-index:200;background:#ffffff;border-bottom:1px solid #e2e8f0;padding:10px 16px;display:flex;align-items:center;gap:10px}
+.brand{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.bmark{width:38px;height:38px;border-radius:9px;background:#0f172a;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:#fff;letter-spacing:.01em;flex-shrink:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 2px 6px rgba(0,0,0,.25)}
+.bname{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;letter-spacing:-.02em;color:#0f172a;white-space:nowrap}
+.srow{flex:1;display:flex;gap:8px;max-width:580px}
+.sinput{flex:1;padding:9px 16px;background:hsl(var(--card));border:1.5px solid hsl(var(--border));border-radius:10px;color:hsl(var(--foreground));font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s,box-shadow .2s}
+.sinput:focus{border-color:var(--o);box-shadow:0 0 0 3px rgba(249,115,22,.12)}
+.sinput::placeholder{color:hsl(var(--muted-foreground));opacity:.5}
+.sbtn{padding:9px 18px;background:#FF7B00;color:#fff;border:none;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:opacity .2s}
+.sbtn:hover{opacity:.88}.sbtn:disabled{opacity:.35;cursor:not-allowed}
+.mktsel{padding:8px 10px;background:hsl(var(--card));border:1px solid hsl(var(--border));border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:600;color:hsl(var(--foreground));cursor:pointer;outline:none;flex-shrink:0}
+
+/* MAIN */
+.main{padding:20px;max-width:1080px;margin:0 auto;padding-bottom:60px}
+
+/* WELCOME */
+.welcome{text-align:center;padding:44px 20px}
+.wtag{display:inline-block;padding:5px 14px;margin-bottom:14px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;background:linear-gradient(90deg,rgba(249,115,22,.12),rgba(124,58,237,.12));border:1px solid rgba(249,115,22,.28);color:var(--o)}
+.wh1{font-family:'Syne',sans-serif;font-size:34px;font-weight:800;margin-bottom:10px;letter-spacing:-.04em;color:#0f172a;line-height:1.15}
+.wp{color:hsl(var(--muted-foreground));font-size:13px;margin-bottom:24px}
+.mflags{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-bottom:24px}
+.mfl{padding:5px 12px;background:hsl(var(--card));border:1px solid hsl(var(--border));border-radius:20px;font-size:12px;cursor:pointer;transition:all .15s;font-weight:600;color:hsl(var(--muted-foreground));user-select:none}
+.mfl:hover,.mfl.on{border-color:var(--o);color:var(--o);background:rgba(249,115,22,.08)}
+.qgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;max-width:800px;margin:0 auto}
+.qcard{background:hsl(var(--card));border:1px solid hsl(var(--border));border-radius:12px;padding:13px;cursor:pointer;transition:all .2s;text-align:left}
+.qcard:hover{border-color:var(--o);transform:translateY(-2px);box-shadow:0 8px 24px rgba(249,115,22,.1)}
+.qci{font-size:22px;margin-bottom:6px}.qcn{font-size:13px;font-weight:700;margin-bottom:2px}.qcc{font-size:11px;color:hsl(var(--muted-foreground))}
+
+/* LOADING */
+.loading{text-align:center;padding:60px 20px}
+.lring{width:44px;height:44px;border:3px solid hsl(var(--border));border-top-color:var(--o);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.lbrand{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;background:linear-gradient(90deg,var(--o),var(--p));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:14px}
+.lsteps{list-style:none;display:inline-block;text-align:left}
+.lsteps li{font-size:12px;color:hsl(var(--muted-foreground));padding:3px 0;display:flex;align-items:center;gap:8px}
+.sdot{width:7px;height:7px;border-radius:50%;background:hsl(var(--border));flex-shrink:0;transition:background .3s}
+.sdot.act{background:var(--o);box-shadow:0 0 6px rgba(249,115,22,.5)}.sdot.don{background:var(--g)}
+
+/* RESULTS */
+.results{animation:fadeUp .35s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* OVERVIEW */
+.ovcard{background:hsl(var(--card));border:1px solid hsl(var(--border));border-radius:16px;padding:18px 20px;margin-bottom:12px;display:flex;gap:14px;align-items:flex-start}
+.ovemoji{font-size:32px;line-height:1;flex-shrink:0;margin-top:2px}
+.ovbody{flex:1;min-width:0}
+.ovcat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--o);margin-bottom:3px}
+.ovtitle{font-size:19px;font-weight:800;letter-spacing:-.01em;line-height:1.2;margin-bottom:5px}
+.ovinsight{font-size:12px;color:hsl(var(--muted-foreground));line-height:1.5}
+.ovverdict{margin-top:7px;font-size:12px;font-weight:600;color:var(--g);display:flex;align-items:center;gap:5px}
+.ovstats{display:flex;gap:16px;flex-shrink:0}
+.stn{font-size:18px;font-weight:800;font-family:'JetBrains Mono',monospace}
+.stl{font-size:10px;color:hsl(var(--muted-foreground));margin-top:1px;text-transform:uppercase;letter-spacing:.05em}
+
+/* ── CAROUSEL ── */
+.carousel{position:relative;margin-bottom:12px;border-radius:16px;overflow:hidden;border:1px solid hsl(var(--border))}
+.car-vp{overflow:hidden;position:relative}
+.car-track{display:flex;transition:transform .42s cubic-bezier(.4,0,.2,1);will-change:transform}
+.car-slide{flex:0 0 100%;min-width:0;height:268px;position:relative;overflow:hidden}
+
+/* slide backgrounds */
+.sbg1{background:linear-gradient(135deg,#0f0c29 0%,#302b63 60%,#24243e 100%)}
+.sbg2{background:linear-gradient(135deg,#0a0f1a 0%,#0f172a 50%,#1a0a2e 100%)}
+.sbg3{background:linear-gradient(135deg,#071a10 0%,#0d2a18 50%,#162e10 100%)}
+.sbg4{background:linear-gradient(135deg,#1a0f0a 0%,#2e1a0a 55%,#3d2100 100%)}
+.sbg5{background:linear-gradient(135deg,#0a0a1e 0%,#190a2e 55%,#0d082e 100%)}
+
+/* slide content wrapper */
+.slide-body{width:100%;height:100%;padding:20px 22px;display:flex;flex-direction:column;justify-content:space-between}
+.slide-tag{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.4);margin-bottom:8px}
+
+/* SLIDE 1 — HERO */
+.hero-top{display:flex;align-items:flex-start;gap:14px}
+.hero-emoji{font-size:50px;line-height:1;flex-shrink:0}
+.hero-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--o);margin-bottom:3px}
+.hero-name{font-size:17px;font-weight:800;color:#fff;line-height:1.25;margin-bottom:5px}
+.hero-range{font-size:12px;color:rgba(255,255,255,.55)}
+.hero-range span{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--g);font-size:15px}
+.hero-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.hero-insight{font-size:12px;color:rgba(255,255,255,.5);flex:1;line-height:1.45}
+.hero-photobtn{flex-shrink:0;padding:7px 14px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:8px;font-size:12px;font-weight:700;color:#fff;text-decoration:none;transition:background .2s;white-space:nowrap}
+.hero-photobtn:hover{background:rgba(255,255,255,.2)}
+
+/* SLIDE 2 — PRICE BARS */
+.pbar-rows{display:flex;flex-direction:column;gap:10px;flex:1}
+.pbar-row{display:flex;align-items:center;gap:8px}
+.pbar-lbl{font-size:12px;font-weight:600;color:rgba(255,255,255,.8);width:110px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pbar-track{flex:1;height:8px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden}
+.pbar-fill{height:100%;border-radius:4px;background:rgba(255,255,255,.25)}
+.pbar-fill.best{background:var(--g)}
+.pbar-price{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:rgba(255,255,255,.65);width:90px;text-align:right;flex-shrink:0;white-space:nowrap}
+.pbar-price.best{color:var(--g)}
+
+/* SLIDE 3 — SPECS */
+.spec-grid-car{display:grid;gap:8px;flex:1}
+.spec-item-car{background:rgba(255,255,255,.07);border-radius:8px;padding:8px 10px}
+.sic-k{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.42);margin-bottom:2px}
+.sic-v{font-size:12px;font-weight:700;color:#fff;line-height:1.3}
+
+/* SLIDE 4 — BEST DEAL */
+.deal-plat{font-size:14px;font-weight:800;margin-bottom:3px}
+.deal-prod{font-size:13px;font-weight:600;color:rgba(255,255,255,.8);margin-bottom:8px;line-height:1.3}
+.deal-prow{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.deal-price{font-size:26px;font-weight:800;font-family:'JetBrains Mono',monospace;color:#fff}
+.deal-disc{padding:3px 9px;background:rgba(16,185,129,.2);border:1px solid rgba(16,185,129,.4);border-radius:6px;font-size:12px;font-weight:700;color:var(--g)}
+.deal-mrpx{font-family:'JetBrains Mono',monospace;font-size:13px;color:rgba(255,255,255,.32);text-decoration:line-through}
+.deal-meta{font-size:12px;color:rgba(255,255,255,.55);margin-bottom:3px}
+.deal-buybtn{display:inline-block;padding:8px 18px;background:var(--g);color:#fff;text-decoration:none;border-radius:9px;font-size:12px;font-weight:700;transition:opacity .2s;margin-top:6px}
+.deal-buybtn:hover{opacity:.88}
+
+/* SLIDE 5 — INTEL */
+.intel-verdict{font-size:13px;font-weight:700;color:var(--g);padding:8px 12px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);border-radius:8px;margin-bottom:8px}
+.intel-rows{display:flex;flex-direction:column;gap:7px;flex:1}
+.intel-row{display:flex;gap:10px;align-items:flex-start;padding:7px 10px;background:rgba(255,255,255,.06);border-radius:8px}
+.intel-icon{font-size:13px;flex-shrink:0;margin-top:1px}
+.intel-text{font-size:12px;color:rgba(255,255,255,.8);line-height:1.4}
+
+/* carousel navigation */
+.car-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:20;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.48);border:1px solid rgba(255,255,255,.15);color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;user-select:none;line-height:1;padding-bottom:1px}
+.car-arrow:hover{background:rgba(0,0,0,.72)}
+.car-prev{left:12px}.car-next{right:12px}
+.car-dots{position:absolute;bottom:52px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10}
+.cdot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:all .25s}
+.cdot.on{background:#fff;width:20px;border-radius:3.5px}
+.car-thumbs{display:flex;background:hsl(var(--card));border-top:1px solid hsl(var(--border))}
+.cthumb{flex:1;height:42px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:hsl(var(--muted-foreground));border-bottom:2.5px solid transparent;transition:all .15s;border-left:1px solid hsl(var(--border))}
+.cthumb:first-child{border-left:none}
+.cthumb:hover{color:hsl(var(--foreground))}
+.cthumb.on{color:var(--o);border-bottom-color:var(--o);background:rgba(249,115,22,.05)}
+
+/* SAVINGS */
+.savings{display:flex;align-items:center;justify-content:space-between;background:var(--gb);border:1px solid rgba(16,185,129,.25);border-radius:12px;padding:12px 18px;margin-bottom:12px;gap:12px}
+.sav-hl{font-size:13px;font-weight:700;color:var(--g)}
+.sav-sub{font-size:11px;color:hsl(var(--muted-foreground));margin-top:2px}
+.sav-amt{font-size:24px;font-weight:800;font-family:'JetBrains Mono',monospace;color:var(--g)}
+.sav-lbl{font-size:11px;color:hsl(var(--muted-foreground))}
+
+/* VARIANTS */
+.variants{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:12px}
+.variants-lbl{font-size:12px;font-weight:600;color:hsl(var(--muted-foreground))}
+.vchip{padding:5px 12px;background:hsl(var(--card));border:1.5px solid hsl(var(--border));border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
+.vchip:hover,.vchip.on{border-color:var(--o);color:var(--o);background:rgba(249,115,22,.08)}
+
+/* CONTROLS */
+.controls{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+.f-chips{display:flex;flex-wrap:wrap;gap:6px;flex:1}
+.fchip{padding:5px 12px;background:hsl(var(--card));border:1px solid hsl(var(--border));border-radius:20px;font-size:12px;font-weight:600;color:hsl(var(--muted-foreground));cursor:pointer;transition:all .15s;user-select:none}
+.fchip:hover:not(.on){border-color:hsl(var(--foreground));color:hsl(var(--foreground))}
+.fchip.on{background:rgba(249,115,22,.1);border-color:var(--o);color:var(--o)}
+.ctrl-r{display:flex;gap:8px;align-items:center}
+.sortsel{padding:6px 10px;background:hsl(var(--card));border:1px solid hsl(var(--border));border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;color:hsl(var(--foreground));cursor:pointer;outline:none}
+.viewtog{display:flex;background:hsl(var(--card));border:1px solid hsl(var(--border));border-radius:8px;overflow:hidden}
+.vbtn{padding:6px 12px;background:none;border:none;font-size:13px;cursor:pointer;color:hsl(var(--muted-foreground));transition:all .15s}
+.vbtn.on{background:var(--o);color:#fff}
+
+/* RCOUNT */
+.rcount{font-size:12px;color:hsl(var(--muted-foreground));margin-bottom:12px}
+
+/* GRID */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:12px;margin-bottom:20px}
+
+/* PRODUCT CARD */
+.pcard{background:hsl(var(--card));border:1.5px solid hsl(var(--border));border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;transition:all .2s;position:relative}
+.pcard:hover{border-color:var(--o);transform:translateY(-2px);box-shadow:0 8px 24px rgba(249,115,22,.08)}
+.pcard.isbest{border-color:var(--g)}.pcard.isbest:hover{box-shadow:0 8px 24px rgba(16,185,129,.1)}
+.pcbadge{position:absolute;top:-1px;right:14px;padding:3px 10px;border-radius:0 0 8px 8px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.07em}
+.badge-best{background:var(--g);color:#fff}.badge-sale{background:var(--a);color:#000}.badge-offer{background:var(--b);color:#fff}.badge-hot{background:var(--r);color:#fff}
+.pc-top{display:flex;align-items:center;justify-content:space-between}
+.pc-plat{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700}
+.platdot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.pc-rating{display:flex;align-items:center;gap:3px;font-size:12px;font-weight:700;color:var(--a)}
+.pc-rct{font-size:10px;color:hsl(var(--muted-foreground));font-weight:400}
+.pc-title{font-size:13px;font-weight:600;line-height:1.35;margin-bottom:2px}
+.pc-variant{font-size:11px;color:hsl(var(--muted-foreground))}
+.pc-prices{display:flex;align-items:baseline;flex-wrap:wrap;gap:7px}
+.price-main{font-size:22px;font-weight:800;font-family:'JetBrains Mono',monospace}
+.price-mrp{font-size:13px;font-family:'JetBrains Mono',monospace;color:hsl(var(--muted-foreground));text-decoration:line-through}
+.price-disc{padding:2px 7px;border-radius:6px;font-size:11px;font-weight:700;background:rgba(16,185,129,.12);color:var(--g)}
+.pc-meta{display:flex;flex-direction:column;gap:5px}
+.pc-meta-line{display:flex;align-items:flex-start;gap:6px;font-size:12px;color:hsl(var(--muted-foreground))}
+.mi{font-size:12px;flex-shrink:0;margin-top:.5px}
+.avail{color:var(--g);font-weight:600}
+.pc-highlight{font-size:12px;line-height:1.45;border-left:2.5px solid var(--o);padding:6px 10px;border-radius:0 8px 8px 0;background:rgba(249,115,22,.06)}
+.buybtn{display:block;width:100%;padding:10px;text-align:center;text-decoration:none;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;transition:opacity .2s;margin-top:auto;background:#FF7B00;color:#fff}
+.buybtn:hover{opacity:.88}.buybtn.best{background:var(--g)}
+
+/* COMPARISON TABLE */
+.tbl-wrap{overflow-x:auto;border-radius:14px;border:1px solid hsl(var(--border));margin-bottom:20px}
+.cmptable{width:100%;border-collapse:collapse;font-size:13px}
+.cmptable th{background:hsl(var(--card));padding:11px 14px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:hsl(var(--muted-foreground));border-bottom:1px solid hsl(var(--border));white-space:nowrap}
+.cmptable td{padding:11px 14px;border-bottom:1px solid hsl(var(--border));vertical-align:middle}
+.cmptable tr:last-child td{border-bottom:none}
+.cmptable tr.best-row td:first-child{border-left:3px solid var(--g)}
+.cmptable tbody tr:hover td{background:hsl(var(--card))}
+.tpl-pill{display:flex;align-items:center;gap:6px;font-weight:700;white-space:nowrap}
+.tbl-price{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;white-space:nowrap}
+.tbl-mrp{font-family:'JetBrains Mono',monospace;font-size:11px;color:hsl(var(--muted-foreground));text-decoration:line-through}
+.tbl-rat{color:var(--a);font-weight:700}.tbl-rct{font-size:10px;color:hsl(var(--muted-foreground));font-weight:400}
+.tbl-buybtn{padding:6px 14px;border-radius:7px;font-size:12px;font-weight:700;text-decoration:none;display:inline-block;transition:opacity .2s;background:#FF7B00;color:#fff;white-space:nowrap}r-gradient(135deg,var(--o),var(--p));color:#fff;white-space:nowrap}
+.tbl-buybtn:hover{opacity:.88}.tbl-buybtn.best{background:var(--g)}
+
+/* INFO SECTIONS */
+.infobox{background:hsl(var(--card));border:1px solid hsl(var(--border));border-radius:14px;padding:18px 20px;margin-bottom:12px}
+.ibtitle{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:hsl(var(--muted-foreground));margin-bottom:12px}
+.specs-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:8px}
+.spec-row{display:flex;flex-direction:column;gap:2px}
+.spec-k{font-size:11px;color:hsl(var(--muted-foreground));font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.spec-v{font-size:13px;font-weight:600}
+.tip-row{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1px solid hsl(var(--border))}
+.tip-row:first-of-type{padding-top:0}.tip-row:last-of-type{border-bottom:none;padding-bottom:0}
+.tipdot{width:6px;height:6px;background:var(--o);border-radius:50%;flex-shrink:0;margin-top:6px}
+.tiptext{font-size:13px;line-height:1.5}
+.info-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.infohalf{background:hsl(var(--card));border:1px solid hsl(var(--border));border-radius:14px;padding:16px}
+.infoval{font-size:13px;font-weight:500;line-height:1.5}
+.ctag{display:inline-block;margin:3px 4px 3px 0;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:700;background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.3);color:var(--o)}
+.alt-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.alt-chip{padding:7px 14px;background:hsl(var(--background));border:1px solid hsl(var(--border));border-radius:20px;font-size:12px;cursor:pointer;transition:all .15s}
+.alt-chip:hover{border-color:var(--o);color:var(--o)}
+.errbox{background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2);border-radius:12px;padding:20px;text-align:center;color:#fca5a5;font-size:14px}
+.nores{text-align:center;padding:40px;color:hsl(var(--muted-foreground));font-size:14px}
+.hidden{display:none!important}
+@media(max-width:580px){.ovstats{display:none}.pgrid{grid-template-columns:1fr}.specs-g{grid-template-columns:1fr 1fr}.info-pair{grid-template-columns:1fr}.bname{font-size:11px}.mktsel{font-size:12px;padding:6px 8px}}
+/* ── BUYHATKE THEME — vivid orange on white ── */
+.sinput:focus{box-shadow:0 0 0 3px rgba(255,123,0,.15)!important}
+.wtag{background:linear-gradient(90deg,rgba(255,123,0,.08),rgba(255,154,64,.08))!important;border-color:rgba(255,123,0,.28)!important;color:#FF7B00!important}
+.mfl:hover,.mfl.on{background:rgba(255,123,0,.07)!important;border-color:rgba(255,123,0,.28)!important;color:#FF7B00!important}
+.qcard:hover{box-shadow:0 8px 24px rgba(255,123,0,.12)!important}
+.pcard:hover{box-shadow:0 8px 24px rgba(255,123,0,.1)!important}
+.pc-highlight{background:rgba(255,123,0,.06)!important}
+.ctag{background:rgba(255,123,0,.1)!important;border-color:rgba(255,123,0,.3)!important;color:#7A3600!important}
+.vchip:hover,.vchip.on{background:rgba(255,123,0,.07)!important;border-color:rgba(255,123,0,.28)!important;color:#FF7B00!important}
+.fchip.on{background:rgba(255,123,0,.08)!important;border-color:rgba(255,123,0,.28)!important;color:#FF7B00!important}
+.sdot.act{box-shadow:0 0 6px rgba(255,123,0,.5)!important}
+/* ── ENTERPRISE HERO LAYOUT ── */
+.welcome{padding:64px 20px 44px!important}
+.wtag{font-size:10px!important;letter-spacing:.12em!important;font-weight:700!important;padding:4px 14px!important;border-radius:4px!important;color:#FF7B00!important}
+.wp{font-size:14px!important;color:#64748b!important;max-width:520px!important;margin:0 auto 28px!important;line-height:1.6!important}
+.wh1-accent{color:#FF7B00}
+.wh1-sub{display:block;font-size:18px;font-weight:500;color:#64748b;letter-spacing:-.01em;margin-top:4px}
+/* ── AUTOCOMPLETE ── */
+.sac-wrap{position:relative;flex:1;min-width:0}
+.sac-drop{position:absolute;top:calc(100% + 6px);left:0;right:0;background:#fff;border:1.5px solid #e2e8f0;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.13);z-index:1000;overflow:hidden;max-height:320px;overflow-y:auto}
+.sac-item{display:flex;align-items:center;gap:10px;padding:9px 14px;cursor:pointer;transition:background .1s;border-top:1px solid #f1f5f9}
+.sac-item:first-child{border-top:none}
+.sac-item:hover,.sac-item.sac-focused{background:#fef7f0}
+.sac-emo{font-size:16px;flex-shrink:0;width:22px;text-align:center}
+.sac-name{font-size:13px;font-weight:600;color:#0f172a;flex:1}
+.sac-cat{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:#f1f5f9;color:#64748b;white-space:nowrap;text-transform:uppercase;letter-spacing:.04em}
+.sac-spell{padding:9px 14px;font-size:12px;color:#64748b;border-top:1px solid #f1f5f9;background:#fff}
+.sac-hist-hdr{padding:7px 14px 3px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#94a3b8}
+.sac-spell-fix{color:#FF7B00;font-weight:700;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.sac-saved-dot{width:5px;height:5px;border-radius:50%;background:#D97706;display:inline-block;margin-left:4px;vertical-align:middle;flex-shrink:0}
+/* ── FX CONVERSION ── */
+.fx-conv{font-size:11px;color:#64748b;margin-top:3px;font-family:'JetBrains Mono',monospace;letter-spacing:-.01em}
+.fx-conv span{color:#FF7B00;font-weight:700}
+/* ── GLOBAL PRICE INTEL ── */
+.gpi-bar{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.gpi-bar-sub{font-size:11px;color:#94a3b8}
+.gpi-btn{display:inline-flex;align-items:center;gap:7px;padding:8px 18px;background:#FF7B00;color:#fff;border:none;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:opacity .2s;white-space:nowrap;flex-shrink:0}
+.gpi-btn:hover{opacity:.88}
+.gpi-panel{background:hsl(var(--card));border:1.5px solid hsl(var(--border));border-radius:14px;overflow:hidden;margin-bottom:16px}
+.gpi-head{padding:14px 18px;background:linear-gradient(135deg,#D96800,#FF7B00);color:#fff}
+.gpi-head-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;margin-bottom:2px}
+.gpi-head-sub{font-size:11px;opacity:.75}
+.gpi-table{width:100%;border-collapse:collapse;font-size:13px}
+.gpi-table th{padding:9px 14px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#94a3b8;border-bottom:1px solid hsl(var(--border));background:#fafafa;white-space:nowrap}
+.gpi-table td{padding:11px 14px;border-bottom:1px solid #f1f5f9;vertical-align:middle}
+.gpi-table tr:last-child td{border-bottom:none}
+.gpi-row-cheapest td{background:rgba(22,163,74,.05)}
+.gpi-row-home td{background:rgba(255,123,0,.03)}
+.gpi-mkt{display:flex;align-items:center;gap:7px;font-weight:700;white-space:nowrap}
+.gpi-local{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px}
+.gpi-inr{font-size:11px;color:#64748b;font-family:'JetBrains Mono',monospace;margin-top:2px}
+.gpi-delta{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;white-space:nowrap}
+.gpi-delta.cheaper{background:rgba(22,163,74,.1);color:#15803d}
+.gpi-delta.expensive{background:rgba(220,38,38,.08);color:#dc2626}
+.gpi-delta.home{background:#f1f5f9;color:#64748b}
+.gpi-landed{font-size:11px;color:#475569}
+.gpi-landed small{color:#94a3b8}
+.gpi-badge-cheap{font-size:9px;font-weight:800;background:#15803d;color:#fff;padding:2px 6px;border-radius:4px;text-transform:uppercase;letter-spacing:.05em;margin-left:5px}
+.gpi-insight{padding:13px 18px;font-size:12px;color:#475569;line-height:1.65;border-top:1px solid hsl(var(--border));background:#fffbf7}
+.gpi-insight+.gpi-insight{border-top:none;padding-top:0}
+.gpi-insight strong{color:#0f172a}
+.gpi-loading{padding:36px;text-align:center;color:#94a3b8;font-size:13px}
+.gpi-loading .lring{margin:0 auto 10px}
+
+/* ── SETTINGS BUTTON (standalone mode) ── */
+#settingsbtn{padding:7px 10px;background:none;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;font-size:15px;flex-shrink:0;color:#64748b;line-height:1;transition:all .15s}
+#settingsbtn:hover{border-color:#FF7B00;color:#FF7B00}
+</style>
+</head>
+<body>
+<!-- API KEY MODAL -->
+<div id="keymodal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;align-items:center;justify-content:center">
+  <div style="background:#fff;border-radius:18px;padding:32px;max-width:420px;width:90%;box-shadow:0 24px 64px rgba(0,0,0,.22);font-family:'Plus Jakarta Sans',sans-serif">
+    <div style="font-family:'Syne',sans-serif;font-size:21px;font-weight:800;margin-bottom:6px;color:#0f172a">⚙ Setup Compare Maadu</div>
+    <div style="font-size:13px;color:#64748b;margin-bottom:20px;line-height:1.55">A free AI key powers all comparisons. <strong>Groq is completely free</strong> — no credit card, ~30 seconds to set up.</div>
+    <div style="margin-bottom:16px">
+      <label style="display:flex;gap:10px;padding:12px;border:1.5px solid #e2e8f0;border-radius:10px;cursor:pointer;margin-bottom:8px;align-items:flex-start">
+        <input type="radio" name="km_prov" value="groq" checked style="margin-top:3px;accent-color:#FF7B00">
+        <div><strong style="color:#0f172a">Groq</strong> <span style="font-size:11px;background:#dcfce7;color:#15803d;padding:2px 7px;border-radius:4px;font-weight:700;margin-left:4px">FREE</span><br>
+        <span style="font-size:12px;color:#64748b">Llama 3.3 70B · Fast · 30 req/min &nbsp;<a href="https://console.groq.com" target="_blank" style="color:#FF7B00;font-weight:700">Get free key →</a></span></div>
+      </label>
+      <label style="display:flex;gap:10px;padding:12px;border:1.5px solid #e2e8f0;border-radius:10px;cursor:pointer;align-items:flex-start">
+        <input type="radio" name="km_prov" value="openai" style="margin-top:3px;accent-color:#FF7B00">
+        <div><strong style="color:#0f172a">OpenAI</strong><br>
+        <span style="font-size:12px;color:#64748b">GPT-4o mini · ~$0.001/search &nbsp;<a href="https://platform.openai.com/api-keys" target="_blank" style="color:#FF7B00;font-weight:700">Get key →</a></span></div>
+      </label>
+    </div>
+    <input type="password" id="km_key" placeholder="Paste your API key here…"
+      style="width:100%;padding:11px 14px;border:1.5px solid #e2e8f0;border-radius:10px;font-family:inherit;font-size:14px;margin-bottom:8px;outline:none;box-sizing:border-box"
+      onfocus="this.style.borderColor='#FF7B00'" onblur="this.style.borderColor='#e2e8f0'">
+    <div id="km_err" style="color:#dc2626;font-size:12px;margin-bottom:8px;display:none"></div>
+    <button onclick="saveKey()"
+      style="width:100%;padding:12px;background:#FF7B00;color:#fff;border:none;border-radius:10px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer"
+      onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">Save &amp; Start Comparing →</button>
+    <div style="text-align:center;margin-top:10px;font-size:11px;color:#94a3b8">Key stored in your browser only — never sent anywhere except directly to the AI provider.</div>
+  </div>
+</div>
+<div id="app">
+
+<!-- TOPBAR -->
+<div class="tb">
+  <div class="brand">
+    <div class="bmark">CM</div>
+    <span class="bname">comparemaadu<span style="font-size:10px;color:#94a3b8;font-weight:700;letter-spacing:0">.com</span></span>
+  </div>
+  <div class="srow">
+    <div class="sac-wrap">
+      <input class="sinput" id="si" type="text" placeholder="Search any product in any market…" autocomplete="off" spellcheck="false" style="width:100%"/>
+      <div class="sac-drop hidden" id="sacdrop"></div>
+    </div>
+    <button class="sbtn" id="sbtn">Compare →</button>
+  </div>
+  <select class="mktsel" id="mktsel">
+    <option value="IN">🇮🇳 India</option>
+    <option value="US">🇺🇸 USA</option>
+    <option value="GB">🇬🇧 UK</option>
+    <option value="AE">🇦🇪 UAE</option>
+    <option value="SG">🇸🇬 Singapore</option>
+    <option value="AU">🇦🇺 Australia</option>
+    <option value="DE">🇩🇪 Germany</option>
+    <option value="JP">🇯🇵 Japan</option>
+  </select>
+  <button id="settingsbtn" onclick="showKeyModal()" title="API Key Settings">⚙</button>
+</div>
+
+<!-- AI DISCLAIMER BANNER -->
+<div style="background:#fff8eb;border-bottom:1px solid #fde68a;padding:6px 16px;font-size:11px;color:#92400e;text-align:center;display:flex;align-items:center;justify-content:center;gap:5px;flex-shrink:0">
+  <span>⚠️</span>
+  <span><strong>AI-generated price estimates</strong> — prices are approximate. Always verify on the platform before purchasing.</span>
+</div>
+
+<div class="main" id="mainarea">
+  <!-- WELCOME -->
+  <div class="welcome" id="ws">
+    <div class="wtag">Global Price Intelligence</div>
+    <h1 class="wh1">Find the best deal,<span class="wh1-accent"> anywhere.</span><span class="wh1-sub">Every product. Every market. Every time.</span></h1>
+    <p class="wp">Real-time comparisons across Amazon, Flipkart, Best Buy, Noon &amp; 20+ platforms in 8 global markets</p>
+    <div class="mflags" id="mflags">
+      <span class="mfl on" data-m="IN">🇮🇳 India</span>
+      <span class="mfl" data-m="US">🇺🇸 USA</span>
+      <span class="mfl" data-m="GB">🇬🇧 UK</span>
+      <span class="mfl" data-m="AE">🇦🇪 UAE</span>
+      <span class="mfl" data-m="SG">🇸🇬 Singapore</span>
+      <span class="mfl" data-m="AU">🇦🇺 Australia</span>
+      <span class="mfl" data-m="DE">🇩🇪 Germany</span>
+      <span class="mfl" data-m="JP">🇯🇵 Japan</span>
+    </div>
+    <div class="qgrid" id="qgrid"></div>
+  </div>
+  <!-- LOADING -->
+  <div class="loading hidden" id="loadscr">
+    <div class="lring"></div>
+    <div class="lbrand">comparemaadu.com</div>
+    <ul class="lsteps">
+      <li><span class="sdot" id="s0"></span>Scanning platforms…</li>
+      <li><span class="sdot" id="s1"></span>Comparing prices…</li>
+      <li><span class="sdot" id="s2"></span>Fetching ratings &amp; delivery info…</li>
+      <li><span class="sdot" id="s3"></span>Finding maximum savings…</li>
+      <li><span class="sdot" id="s4"></span>Building deal intelligence…</li>
+    </ul>
+  </div>
+  <!-- RESULTS -->
+  <div id="resultscr" class="hidden"></div>
+</div>
+
+</div>
+<script>
+/* ═══ STANDALONE MODE — direct AI API + localStorage (no CTAI bridge) ═══ */
+async function callAI(system,prompt,max_tokens=2000){
+  const provider=localStorage.getItem('cm_provider')||'groq';
+  const key=localStorage.getItem('cm_api_key');
+  if(!key){showKeyModal();throw new Error('API key required — click ⚙ Settings to add your free Groq key');}
+  const eps={groq:'https://api.groq.com/openai/v1/chat/completions',openai:'https://api.openai.com/v1/chat/completions',openrouter:'https://openrouter.ai/api/v1/chat/completions'};
+  const mds={groq:'llama-3.3-70b-versatile',openai:'gpt-4o-mini',openrouter:'meta-llama/llama-3.3-70b-instruct:free'};
+  const resp=await fetch(eps[provider]||eps.groq,{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':`Bearer ${key}`,...(provider==='openrouter'?{'HTTP-Referer':'https://comparemaadu.com','X-Title':'Compare Maadu'}:{})},
+    body:JSON.stringify({model:mds[provider]||mds.groq,messages:[{role:'system',content:system},{role:'user',content:prompt}],max_tokens,temperature:0.3})
+  });
+  if(!resp.ok){const e=await resp.json().catch(()=>({}));throw new Error(e.error?.message||`API error ${resp.status}`);}
+  const d=await resp.json();
+  return{content:d.choices[0].message.content};
+}
+const ctai={
+  ready:()=>Promise.resolve(),
+  infer:({system,prompt,max_tokens=2000})=>callAI(system,prompt,max_tokens),
+  queryEntities:async(type)=>{
+    if(type==='cm_product'){try{return(JSON.parse(localStorage.getItem('cm_products')||'[]')).map((f,i)=>({id:'lp'+i,facts:f}));}catch(_){return[];}}
+    if(type==='currency_rate'){try{const c=JSON.parse(localStorage.getItem('cm_rates')||'{}');if(c.ts&&Date.now()-c.ts<86400000&&c.INR)return[{id:'lr',facts:{rates_json:JSON.stringify(c)}}];}catch(_){}return[];}
+    return[];
+  },
+  createEntity:async(type,facts)=>{
+    if(type==='cm_product'){try{const s=JSON.parse(localStorage.getItem('cm_products')||'[]');if(!s.find(p=>p.name?.toLowerCase()===facts.name?.toLowerCase())){s.push(facts);localStorage.setItem('cm_products',JSON.stringify(s.slice(-500)));}}catch(_){}}
+    return{id:'l'+Date.now(),facts};
+  }
+};
+function showKeyModal(){const m=document.getElementById('keymodal');if(m)m.style.display='flex';}
+function hideKeyModal(){const m=document.getElementById('keymodal');if(m)m.style.display='none';}
+function saveKey(){
+  const k=(document.getElementById('km_key')||{}).value?.trim();
+  const p=document.querySelector('[name=km_prov]:checked')?.value||'groq';
+  const em=document.getElementById('km_err');
+  if(!k){if(em){em.textContent='Please enter your API key.';em.style.display='block';}return;}
+  localStorage.setItem('cm_api_key',k);localStorage.setItem('cm_provider',p);
+  if(em)em.style.display='none';
+  hideKeyModal();refreshRates();
+}
+
+/* ──────── UNIVERSAL PRODUCT DATABASE ──────── */
+const PRODUCTS=[
+  // 🍎 Grocery & Fresh
+  {n:'Apple',c:'Grocery',e:'🍎'},{n:'Banana',c:'Grocery',e:'🍌'},{n:'Mango',c:'Grocery',e:'🥭'},
+  {n:'Orange',c:'Grocery',e:'🍊'},{n:'Grapes',c:'Grocery',e:'🍇'},{n:'Watermelon',c:'Grocery',e:'🍉'},
+  {n:'Papaya',c:'Grocery',e:'🧡'},{n:'Pomegranate',c:'Grocery',e:'❤️'},{n:'Strawberry',c:'Grocery',e:'🍓'},
+  {n:'Pineapple',c:'Grocery',e:'🍍'},{n:'Kiwi',c:'Grocery',e:'🥝'},{n:'Lemon',c:'Grocery',e:'🍋'},
+  {n:'Tomato',c:'Grocery',e:'🍅'},{n:'Potato',c:'Grocery',e:'🥔'},{n:'Onion',c:'Grocery',e:'🧅'},
+  {n:'Garlic',c:'Grocery',e:'🧄'},{n:'Ginger',c:'Grocery',e:'🫚'},{n:'Carrot',c:'Grocery',e:'🥕'},
+  {n:'Spinach',c:'Grocery',e:'🥬'},{n:'Cauliflower',c:'Grocery',e:'🥦'},{n:'Broccoli',c:'Grocery',e:'🥦'},
+  {n:'Cucumber',c:'Grocery',e:'🥒'},{n:'Capsicum',c:'Grocery',e:'🫑'},{n:'Green Chilli',c:'Grocery',e:'🌶️'},
+  {n:'Coriander',c:'Grocery',e:'🌿'},{n:'Mushroom',c:'Grocery',e:'🍄'},{n:'Sweet Corn',c:'Grocery',e:'🌽'},
+  {n:'Rice',c:'Grocery',e:'🍚'},{n:'Basmati Rice',c:'Grocery',e:'🍚'},{n:'Wheat Flour',c:'Grocery',e:'🌾'},
+  {n:'Atta',c:'Grocery',e:'🌾'},{n:'Milk',c:'Grocery',e:'🥛'},{n:'Eggs',c:'Grocery',e:'🥚'},
+  {n:'Bread',c:'Grocery',e:'🍞'},{n:'Butter',c:'Grocery',e:'🧈'},{n:'Cheese',c:'Grocery',e:'🧀'},
+  {n:'Yogurt',c:'Grocery',e:'🫙'},{n:'Paneer',c:'Grocery',e:'🧀'},{n:'Ghee',c:'Grocery',e:'🫙'},
+  {n:'Sugar',c:'Grocery',e:'🍬'},{n:'Salt',c:'Grocery',e:'🧂'},{n:'Cooking Oil',c:'Grocery',e:'🫙'},
+  {n:'Sunflower Oil',c:'Grocery',e:'🌻'},{n:'Olive Oil',c:'Grocery',e:'🫒'},{n:'Mustard Oil',c:'Grocery',e:'🫙'},
+  {n:'Toor Dal',c:'Grocery',e:'🫘'},{n:'Moong Dal',c:'Grocery',e:'🫘'},{n:'Chana Dal',c:'Grocery',e:'🫘'},
+  {n:'Masoor Dal',c:'Grocery',e:'🫘'},{n:'Rajma',c:'Grocery',e:'🫘'},{n:'Chole',c:'Grocery',e:'🫘'},
+  // 📦 FMCG & Packaged
+  {n:'Maggi Noodles',c:'FMCG',e:'🍜'},{n:'Biscuits',c:'FMCG',e:'🍪'},{n:'Chips',c:'FMCG',e:'🥨'},
+  {n:'Chocolate',c:'FMCG',e:'🍫'},{n:'Coffee',c:'FMCG',e:'☕'},{n:'Tea',c:'FMCG',e:'🫖'},
+  {n:'Green Tea',c:'FMCG',e:'🍵'},{n:'Cornflakes',c:'FMCG',e:'🥣'},{n:'Oats',c:'FMCG',e:'🥣'},
+  {n:'Honey',c:'FMCG',e:'🍯'},{n:'Jam',c:'FMCG',e:'🍓'},{n:'Peanut Butter',c:'FMCG',e:'🥜'},
+  {n:'Shampoo',c:'FMCG',e:'🧴'},{n:'Conditioner',c:'FMCG',e:'🧴'},{n:'Soap',c:'FMCG',e:'🧼'},
+  {n:'Toothpaste',c:'FMCG',e:'🪥'},{n:'Detergent',c:'FMCG',e:'🧺'},{n:'Dish Soap',c:'FMCG',e:'🫧'},
+  {n:'Diapers',c:'FMCG',e:'👶'},{n:'Baby Food',c:'FMCG',e:'🍼'},{n:'Mineral Water',c:'FMCG',e:'💧'},
+  {n:'Juice',c:'FMCG',e:'🧃'},{n:'Energy Drink',c:'FMCG',e:'⚡'},{n:'Protein Powder',c:'FMCG',e:'💪'},
+  // 📱 Electronics
+  {n:'iPhone 16 Pro',c:'Electronics',e:'📱'},{n:'iPhone 16',c:'Electronics',e:'📱'},
+  {n:'iPhone 15 Pro Max',c:'Electronics',e:'📱'},{n:'iPhone 17 Pro',c:'Electronics',e:'📱'},
+  {n:'Samsung Galaxy S25 Ultra',c:'Electronics',e:'📱'},{n:'Samsung Galaxy S25',c:'Electronics',e:'📱'},
+  {n:'OnePlus 13',c:'Electronics',e:'📱'},{n:'Google Pixel 9 Pro',c:'Electronics',e:'📱'},
+  {n:'Redmi Note 14 Pro',c:'Electronics',e:'📱'},{n:'Realme 13 Pro',c:'Electronics',e:'📱'},
+  {n:'Nothing Phone 3',c:'Electronics',e:'📱'},{n:'Vivo V40',c:'Electronics',e:'📱'},
+  {n:'MacBook Air M4',c:'Electronics',e:'💻'},{n:'MacBook Pro M4',c:'Electronics',e:'💻'},
+  {n:'Dell XPS 15',c:'Electronics',e:'💻'},{n:'HP Spectre x360',c:'Electronics',e:'💻'},
+  {n:'ASUS ROG Zephyrus',c:'Electronics',e:'💻'},{n:'Lenovo ThinkPad X1',c:'Electronics',e:'💻'},
+  {n:'iPad Pro',c:'Electronics',e:'📱'},{n:'iPad Air',c:'Electronics',e:'📱'},
+  {n:'Samsung Galaxy Tab S10',c:'Electronics',e:'📱'},
+  {n:'AirPods Pro',c:'Electronics',e:'🎧'},{n:'Sony WH-1000XM5',c:'Electronics',e:'🎧'},
+  {n:'Bose QuietComfort 45',c:'Electronics',e:'🎧'},{n:'OnePlus Buds Pro',c:'Electronics',e:'🎧'},
+  {n:'Samsung 65 inch 4K TV',c:'Electronics',e:'📺'},{n:'Sony Bravia 55 inch',c:'Electronics',e:'📺'},
+  {n:'LG OLED TV',c:'Electronics',e:'📺'},{n:'Mi TV 43 inch',c:'Electronics',e:'📺'},
+  {n:'Canon EOS R50',c:'Electronics',e:'📷'},{n:'Sony Alpha A7 IV',c:'Electronics',e:'📷'},
+  {n:'GoPro Hero 12',c:'Electronics',e:'📷'},
+  {n:'PlayStation 5',c:'Electronics',e:'🎮'},{n:'Xbox Series X',c:'Electronics',e:'🎮'},
+  {n:'Nintendo Switch',c:'Electronics',e:'🎮'},
+  {n:'Kindle Paperwhite',c:'Electronics',e:'📖'},
+  {n:'Apple Watch Series 10',c:'Electronics',e:'⌚'},{n:'Samsung Galaxy Watch 7',c:'Electronics',e:'⌚'},
+  {n:'Mi Smart Band 9',c:'Electronics',e:'⌚'},{n:'JBL Bluetooth Speaker',c:'Electronics',e:'🔊'},
+  {n:'Sony Bluetooth Speaker',c:'Electronics',e:'🔊'},{n:'Bose SoundLink',c:'Electronics',e:'🔊'},
+  // 👗 Fashion
+  {n:'T-Shirt',c:'Fashion',e:'👕'},{n:'Jeans',c:'Fashion',e:'👖'},{n:'Saree',c:'Fashion',e:'🥻'},
+  {n:'Kurta',c:'Fashion',e:'👘'},{n:'Lehenga',c:'Fashion',e:'👗'},{n:'Dress',c:'Fashion',e:'👗'},
+  {n:'Jacket',c:'Fashion',e:'🧥'},{n:'Hoodie',c:'Fashion',e:'🧥'},{n:'Sneakers',c:'Fashion',e:'👟'},
+  {n:'Running Shoes',c:'Fashion',e:'👟'},{n:'Formal Shoes',c:'Fashion',e:'👞'},{n:'Sandals',c:'Fashion',e:'👡'},
+  {n:'Handbag',c:'Fashion',e:'👜'},{n:'Backpack',c:'Fashion',e:'🎒'},{n:'Sunglasses',c:'Fashion',e:'🕶️'},
+  {n:'Belt',c:'Fashion',e:'👔'},{n:'Wallet',c:'Fashion',e:'👛'},{n:'Cap',c:'Fashion',e:'🧢'},
+  // 💄 Beauty & Personal Care
+  {n:'Lipstick',c:'Beauty',e:'💄'},{n:'Foundation',c:'Beauty',e:'🎨'},{n:'Moisturizer',c:'Beauty',e:'🧴'},
+  {n:'Sunscreen',c:'Beauty',e:'☀️'},{n:'Face Wash',c:'Beauty',e:'🧼'},{n:'Serum',c:'Beauty',e:'💊'},
+  {n:'Mascara',c:'Beauty',e:'👁️'},{n:'Kajal',c:'Beauty',e:'👁️'},{n:'Nail Polish',c:'Beauty',e:'💅'},
+  {n:'Perfume',c:'Beauty',e:'🌸'},{n:'Face Mask',c:'Beauty',e:'😷'},{n:'Hair Oil',c:'Beauty',e:'💆'},
+  {n:'Body Lotion',c:'Beauty',e:'🧴'},{n:'Lip Balm',c:'Beauty',e:'💋'},{n:'Eyeliner',c:'Beauty',e:'👁️'},
+  // 💊 Pharmacy & Healthcare
+  {n:'Paracetamol',c:'Pharmacy',e:'💊'},{n:'Vitamin C',c:'Pharmacy',e:'🍊'},
+  {n:'Multivitamins',c:'Pharmacy',e:'💊'},{n:'Omega 3',c:'Pharmacy',e:'🐟'},
+  {n:'Cough Syrup',c:'Pharmacy',e:'🍶'},{n:'Antacid',c:'Pharmacy',e:'💊'},
+  {n:'Hand Sanitizer',c:'Pharmacy',e:'🧴'},{n:'Bandages',c:'Pharmacy',e:'🩹'},
+  {n:'Thermometer',c:'Pharmacy',e:'🌡️'},{n:'Blood Pressure Monitor',c:'Pharmacy',e:'🩺'},
+  {n:'Glucometer',c:'Pharmacy',e:'💉'},{n:'Pulse Oximeter',c:'Pharmacy',e:'🩸'},
+  // 🛋️ Furniture & Home Decor
+  {n:'Sofa',c:'Furniture',e:'🛋️'},{n:'Dining Table',c:'Furniture',e:'🪑'},
+  {n:'Bed',c:'Furniture',e:'🛏️'},{n:'Wardrobe',c:'Furniture',e:'🚪'},
+  {n:'Bookshelf',c:'Furniture',e:'📚'},{n:'Study Table',c:'Furniture',e:'🪑'},
+  {n:'Mattress',c:'Furniture',e:'🛏️'},{n:'Office Chair',c:'Furniture',e:'🪑'},
+  {n:'Coffee Table',c:'Furniture',e:'☕'},{n:'Curtains',c:'Furniture',e:'🏠'},
+  // ⚡ Appliances
+  {n:'Air Conditioner',c:'Appliances',e:'❄️'},{n:'Refrigerator',c:'Appliances',e:'🧊'},
+  {n:'Washing Machine',c:'Appliances',e:'🌀'},{n:'Microwave',c:'Appliances',e:'📦'},
+  {n:'Mixer Grinder',c:'Appliances',e:'🥤'},{n:'Air Purifier',c:'Appliances',e:'💨'},
+  {n:'Water Purifier',c:'Appliances',e:'💧'},{n:'Vacuum Cleaner',c:'Appliances',e:'🧹'},
+  {n:'Ceiling Fan',c:'Appliances',e:'💨'},{n:'Electric Kettle',c:'Appliances',e:'☕'},
+  {n:'Toaster',c:'Appliances',e:'🍞'},{n:'Iron',c:'Appliances',e:'👔'},
+  // ⚽ Sports & Fitness
+  {n:'Cricket Bat',c:'Sports',e:'🏏'},{n:'Football',c:'Sports',e:'⚽'},
+  {n:'Yoga Mat',c:'Sports',e:'🧘'},{n:'Dumbbells',c:'Sports',e:'🏋️'},
+  {n:'Treadmill',c:'Sports',e:'🏃'},{n:'Cycle',c:'Sports',e:'🚴'},
+  {n:'Badminton Racket',c:'Sports',e:'🏸'},{n:'Tennis Racket',c:'Sports',e:'🎾'},
+  {n:'Gym Gloves',c:'Sports',e:'🥊'},{n:'Protein Bar',c:'Sports',e:'🍫'},
+  {n:'Skipping Rope',c:'Sports',e:'🪢'},{n:'Resistance Bands',c:'Sports',e:'💪'},
+  // 📚 Books & Stationery
+  {n:'Atomic Habits',c:'Books',e:'📗'},{n:'Rich Dad Poor Dad',c:'Books',e:'📘'},
+  {n:'The Alchemist',c:'Books',e:'📙'},{n:'Harry Potter',c:'Books',e:'📕'},
+  {n:'Notebook',c:'Books',e:'📓'},{n:'Pen',c:'Books',e:'✒️'},{n:'Pencil',c:'Books',e:'✏️'},
+];
+
+/* ──────── AUTOCOMPLETE ENGINE ──────── */
+function lev(s,t){const m=s.length,n=t.length,d=[];for(let i=0;i<=m;i++)d[i]=[i];for(let j=0;j<=n;j++)d[0][j]=j;for(let j=1;j<=n;j++)for(let i=1;i<=m;i++)d[i][j]=s[i-1]===t[j-1]?d[i-1][j-1]:1+Math.min(d[i-1][j],d[i][j-1],d[i-1][j-1]);return d[m][n];}
+
+function fuzzySearch(query,limit){
+  limit=limit||8;const q=query.toLowerCase().trim();if(!q||q.length<2)return[];
+  return PRODUCTS.map(p=>{
+    const name=p.n.toLowerCase();let sc=0;
+    if(name===q)sc=100;
+    else if(name.startsWith(q))sc=90;
+    else if(name.includes(q))sc=75;
+    else{const best=Math.min(...name.split(' ').map(w=>Math.abs(w.length-q.length)<=3?lev(q,w):99));if(best===0)sc=80;else if(best===1)sc=55;else if(best===2)sc=30;}
+    return{...p,sc};
+  }).filter(p=>p.sc>0).sort((a,b)=>b.sc-a.sc).slice(0,limit);
+}
+
+function spellCheck(query){
+  const q=query.toLowerCase().trim();if(!q||q.length<3)return null;
+  const hasGood=PRODUCTS.some(p=>p.n.toLowerCase().startsWith(q)||q.startsWith(p.n.toLowerCase().split(' ')[0]));
+  if(hasGood)return null;
+  let best=null,bd=999;
+  PRODUCTS.forEach(p=>{p.n.toLowerCase().split(' ').forEach(w=>{if(Math.abs(w.length-q.length)<=2){const d=lev(q,w);if(d>=1&&d<=2&&d<bd){bd=d;best=p;}}});});
+  return best;
+}
+
+let _sacT=null,_sacIdx=-1;
+function showSuggestions(query){
+  const drop=document.getElementById('sacdrop');if(!drop)return;
+  const q=(query||'').trim();
+  if(!q||q.length<2){drop.classList.add('hidden');return;}
+  const hits=fuzzySearch(q);const spell=hits.length===0?spellCheck(q):null;
+  if(!hits.length&&!spell){drop.classList.add('hidden');return;}
+  let html=hits.map(p=>`<div class="sac-item" data-val="${esc(p.n)}"><span class="sac-emo">${p.e||'🛍️'}</span><span class="sac-name">${esc(p.n)}</span>${p.custom?'<span class="sac-saved-dot" title="From your searches"></span>':''}<span class="sac-cat">${esc(p.c)}</span></div>`).join('');
+  if(spell)html+=`<div class="sac-spell">Did you mean: <span class="sac-spell-fix" data-val="${esc(spell.n)}">${esc(spell.n)}</span>?</div>`;
+  drop.innerHTML=html;drop.classList.remove('hidden');_sacIdx=-1;
+  drop.querySelectorAll('.sac-item').forEach(item=>{item.addEventListener('mousedown',e=>{e.preventDefault();document.getElementById('si').value=item.dataset.val;drop.classList.add('hidden');runSearch(item.dataset.val);});});
+  const spFix=drop.querySelector('.sac-spell-fix');
+  if(spFix)spFix.addEventListener('mousedown',e=>{e.preventDefault();document.getElementById('si').value=spFix.dataset.val;drop.classList.add('hidden');});
+}
+
+/* ──────── SEARCH HISTORY ──────── */
+const _HIST_KEY='cm_hist';
+function saveHistory(q){if(!q)return;try{let h=JSON.parse(sessionStorage.getItem(_HIST_KEY)||'[]');h=[q,...h.filter(x=>x!==q)].slice(0,5);sessionStorage.setItem(_HIST_KEY,JSON.stringify(h));}catch(_e){}}
+function showHistory(){
+  const drop=document.getElementById('sacdrop');if(!drop)return;
+  let h=[];try{h=JSON.parse(sessionStorage.getItem(_HIST_KEY)||'[]');}catch(_e){}
+  if(!h.length){drop.classList.add('hidden');return;}
+  drop.innerHTML='<div class="sac-hist-hdr">Recent searches</div>'+h.map(q=>`<div class="sac-item sac-hist" data-val="${esc(q)}"><span class="sac-emo">🕐</span><span class="sac-name">${esc(q)}</span><span class="sac-cat">Recent</span></div>`).join('');
+  drop.classList.remove('hidden');_sacIdx=-1;
+  drop.querySelectorAll('.sac-hist').forEach(item=>{item.addEventListener('mousedown',e=>{e.preventDefault();const v=item.dataset.val;document.getElementById('si').value=v;drop.classList.add('hidden');runSearch(v);});});
+}
+
+async function saveProduct(name,category,emoji){
+  if(!name)return;const nl=name.toLowerCase().trim();
+  if(PRODUCTS.find(p=>p.n.toLowerCase()===nl))return;
+  PRODUCTS.push({n:name,c:category||'General',e:emoji||'🛍️',custom:true});
+  try{await ctai.createEntity('cm_product',{name:name,category:category||'General',emoji:emoji||'🛍️',search_count:1});}catch(_e){}
+}
+
+async function loadSavedProducts(){
+  try{
+    const ents=await ctai.queryEntities('cm_product',{limit:300});
+    (ents||[]).forEach(e=>{const f=e.facts||{};if(f.name&&!PRODUCTS.find(p=>p.n.toLowerCase()===f.name.toLowerCase()))PRODUCTS.push({n:f.name,c:f.category||'General',e:f.emoji||'🛍️',custom:true});});
+  }catch(_e){}
+}
+
+/* ──────── MARKET DATA ──────── */
+const MK = {
+  IN:{flag:'🇮🇳',name:'India',sym:'₹',loc:'en-IN',
+    plats:['Amazon India','Flipkart','Croma','Myntra','Meesho','Nykaa','Tata CLiQ','Reliance Digital'],
+    coupons:['CouponDunia','CashKaro','Magicpin','HDFC SmartBuy','GrabOn'],
+    sale:'Big Billion Days, Great Indian Festival, End of Season Sale'},
+  US:{flag:'🇺🇸',name:'USA',sym:'$',loc:'en-US',
+    plats:['Amazon','Best Buy','Walmart','Target','Newegg','B&H Photo','Costco'],
+    coupons:['Honey','Rakuten','RetailMeNot','Capital One Shopping','Slickdeals'],
+    sale:'Black Friday, Cyber Monday, Prime Day, Labor Day Sale'},
+  GB:{flag:'🇬🇧',name:'UK',sym:'£',loc:'en-GB',
+    plats:['Amazon UK','Currys','Argos','John Lewis','AO','Very'],
+    coupons:['TopCashback','Quidco','VoucherCodes','HotUKDeals'],
+    sale:'Boxing Day, Black Friday, Amazon Prime Day'},
+  AE:{flag:'🇦🇪',name:'UAE',sym:'AED ',loc:'en-AE',
+    plats:['Amazon UAE','Noon','Sharaf DG','Carrefour UAE','Lulu Hypermarket'],
+    coupons:['ShopBack AE','Groupon UAE','Coupon.ae'],
+    sale:'White Friday, Dubai Shopping Festival, Eid Sales'},
+  SG:{flag:'🇸🇬',name:'Singapore',sym:'S$',loc:'en-SG',
+    plats:['Lazada SG','Shopee SG','Amazon SG','Courts SG','Harvey Norman SG'],
+    coupons:['ShopBack SG','Fave','GrabRewards'],
+    sale:'Great Singapore Sale, 11.11, 12.12'},
+  AU:{flag:'🇦🇺',name:'Australia',sym:'A$',loc:'en-AU',
+    plats:['Amazon AU','JB Hi-Fi','Harvey Norman','Officeworks','Kogan'],
+    coupons:['ShopBack AU','Cashrewards','OzBargain'],
+    sale:'Click Frenzy, EOFY Sale, Boxing Day'},
+  DE:{flag:'🇩🇪',name:'Germany',sym:'€',loc:'de-DE',
+    plats:['Amazon Germany','MediaMarkt','Saturn','Otto','Cyberport'],
+    coupons:['Shoop','Qipu','Honey'],
+    sale:'Black Friday, Cyber Monday, After-Christmas Sale'},
+  JP:{flag:'🇯🇵',name:'Japan',sym:'¥',loc:'ja-JP',
+    plats:['Amazon Japan','Rakuten','Yahoo Shopping JP','Yodobashi','Bic Camera'],
+    coupons:['Rakuten Rebates','Yahoo Shopping','Moppy'],
+    sale:'Prime Day JP, Black Friday JP, New Year Sale'},
+};
+
+const QP=[
+  {q:'iPhone 17 Pro 256GB',i:'📱',n:'iPhone 17 Pro',c:'Smartphones'},
+  {q:'Samsung Galaxy S25 Ultra 256GB',i:'📱',n:'Samsung S25 Ultra',c:'Smartphones'},
+  {q:'MacBook Air M4 16GB 256GB',i:'💻',n:'MacBook Air M4',c:'Laptops'},
+  {q:'Sony WH-1000XM5 headphones',i:'🎧',n:'Sony WH-1000XM5',c:'Headphones'},
+  {q:'Nike Air Max 270 men',i:'👟',n:'Nike Air Max 270',c:'Footwear'},
+  {q:'Dyson V15 Detect vacuum cleaner',i:'🧹',n:'Dyson V15 Detect',c:'Appliances'},
+  {q:"Levi's 511 slim fit jeans",i:'👖',n:"Levi's 511 Jeans",c:'Fashion'},
+  {q:'PlayStation 5 Pro console',i:'🎮',n:'PlayStation 5 Pro',c:'Gaming'},
+];
+
+/* ──────── STATE ──────── */
+const S={query:'',market:'IN',data:null,filtered:[],platform:'all',sort:'price_asc',view:'grid',cidx:0,slides:[]};
+
+/* ──────── UTILS ──────── */
+const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function fmt(n){if(n==null||isNaN(n))return'—';const m=MK[S.market]||MK.IN;return m.sym+Number(n).toLocaleString(m.loc,{maximumFractionDigits:0});}
+const getDsc=(p,m)=>(m&&m>p)?Math.round((1-p/m)*100):null;
+const fmtK=n=>!n?'':n>=1000?(n/1000).toFixed(1).replace(/\.0$/,'')+'K':String(n);
+
+const PCOL={amazon:'#FF9900','amazon india':'#FF9900','amazon us':'#FF9900','amazon uk':'#FF9900','amazon germany':'#FF9900','amazon japan':'#FF9900','amazon sg':'#FF9900','amazon au':'#FF9900','amazon uae':'#FF9900',flipkart:'#2874F0',croma:'#E31E25',myntra:'#FF3F6C',meesho:'#9333ea',nykaa:'#FC2779','tata cliq':'#1a73e8','reliance digital':'#1B4FCA',jiomart:'#0057A8','best buy':'#003087',walmart:'#0071CE',target:'#CC0000',newegg:'#FF6600','b&h photo':'#1a1a1a',currys:'#8B1A4A',argos:'#EE2E24','john lewis':'#1D3C50',ao:'#2563EB',noon:'#FBDE02','sharaf dg':'#C8102E','lazada sg':'#F57224','shopee sg':'#EE4D2D','harvey norman':'#E30613','jb hi-fi':'#e6b800',kogan:'#F05A27',officeworks:'#E21A2C',mediamarkt:'#CC0000',saturn:'#0099FF',otto:'#EE0000',rakuten:'#BF0000',yodobashi:'#E80000'};
+function pcol(n){const k=(n||'').toLowerCase();return PCOL[k]||Object.entries(PCOL).find(([p])=>k.includes(p))?.[1]||'#64748b';}
+
+function badgeInfo(b,isBest){
+  if(isBest&&!b)return{lbl:'Best Price',cls:'badge-best'};
+  if(!b)return null;
+  const l=b.toLowerCase();
+  if(l.includes('best')||l.includes('lowest'))return{lbl:b,cls:'badge-best'};
+  if(l.includes('sale')||l.includes('flash'))return{lbl:b,cls:'badge-sale'};
+  if(l.includes('hot'))return{lbl:b,cls:'badge-hot'};
+  return{lbl:b,cls:'badge-offer'};
+}
+
+/* ──────── QUICK GRID ──────── */
+function renderQGrid(){
+  const el=document.getElementById('qgrid');
+  if(el) el.innerHTML=QP.map(p=>`<div class="qcard" data-q="${esc(p.q)}"><div class="qci">${p.i}</div><div class="qcn">${esc(p.n)}</div><div class="qcc">${esc(p.c)}</div></div>`).join('');
+}
+
+function syncMarket(){
+  document.querySelectorAll('.mfl').forEach(f=>f.classList.toggle('on',f.dataset.m===S.market));
+  const sel=document.getElementById('mktsel');if(sel)sel.value=S.market;
+}
+
+/* ──────── CAROUSEL ──────── */
+function buildSlides(data){
+  const all=data.listings||[];
+  const prices=all.map(l=>l.price).filter(Boolean);
+  const minP=prices.length?Math.min(...prices):0;
+  const maxP=prices.length?Math.max(...prices):0;
+  const bestL=all.find(l=>l.price===minP);
+  const mk=MK[S.market]||MK.IN;
+  const gq=encodeURIComponent(data.query_interpreted||S.query);
+  const slides=[];
+
+  /* SLIDE 1 — HERO */
+  slides.push({lbl:'Overview',bg:'sbg1',html:`
+    <div class="slide-body">
+      <div>
+        <div class="slide-tag">Product Overview · ${mk.flag} ${mk.name}</div>
+        <div class="hero-top">
+          <div class="hero-emoji">${esc(data.emoji||'🛍️')}</div>
+          <div>
+            <div class="hero-cat">${esc(data.category||'')}</div>
+            <div class="hero-name">${esc(data.query_interpreted||S.query)}</div>
+            <div class="hero-range">From <span>${fmt(minP)}</span> · Up to ${fmt(maxP)}</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-bottom">
+        <div class="hero-insight">${esc((data.deal_insight||'').substring(0,115))}</div>
+        <a href="#" data-url="https://www.google.com/search?tbm=isch&q=${gq}" class="hero-photobtn">🖼 View Photos</a>
+      </div>
+    </div>`});
+
+  /* SLIDE 2 — PRICE BARS */
+  if(all.length){
+    const sorted=[...all].sort((a,b)=>(a.price||0)-(b.price||0)).slice(0,6);
+    slides.push({lbl:'Prices',bg:'sbg2',html:`
+      <div class="slide-body">
+        <div class="slide-tag">Price Comparison — ${all.length} Listings Found</div>
+        <div class="pbar-rows">
+          ${sorted.map(l=>{
+            const iB=l.price===minP;
+            const bw=maxP>0?Math.max(8,Math.round((l.price/maxP)*100)):50;
+            const d=l.discount_pct||getDsc(l.price,l.mrp);
+            return`<div class="pbar-row">
+              <div class="pbar-lbl">${esc(l.platform||'')}</div>
+              <div class="pbar-track"><div class="pbar-fill ${iB?'best':''}" style="width:${bw}%"></div></div>
+              <div class="pbar-price ${iB?'best':''}">${fmt(l.price)}${d?`<span style="font-size:9px;margin-left:3px;color:var(--g)">−${d}%</span>`:''}</div>
+            </div>`;}).join('')}
+        </div>
+      </div>`});
+  }
+
+  /* SLIDE 3 — SPECS */
+  if(data.specs&&data.specs.length){
+    const cols=data.specs.length<=4?2:3;
+    slides.push({lbl:'Specs',bg:'sbg3',html:`
+      <div class="slide-body">
+        <div class="slide-tag">Key Specifications</div>
+        <div class="spec-grid-car" style="grid-template-columns:repeat(${cols},1fr)">
+          ${data.specs.slice(0,9).map(s=>`
+            <div class="spec-item-car"><div class="sic-k">${esc(s.key)}</div><div class="sic-v">${esc(s.value)}</div></div>`).join('')}
+        </div>
+      </div>`});
+  }
+
+  /* SLIDE 4 — BEST DEAL */
+  if(bestL){
+    const d=bestL.discount_pct||getDsc(bestL.price,bestL.mrp);
+    slides.push({lbl:'Best Deal',bg:'sbg4',html:`
+      <div class="slide-body">
+        <div class="slide-tag">Best Deal Spotlight</div>
+        <div>
+          <div class="deal-plat" style="color:${pcol(bestL.platform)}">${esc(bestL.platform)}</div>
+          <div class="deal-prod">${esc(bestL.product_title||'')}</div>
+          <div class="deal-prow">
+            <div class="deal-price">${fmt(bestL.price)}</div>
+            ${d?`<div class="deal-disc">−${d}%</div>`:''}
+            ${bestL.mrp&&bestL.mrp>bestL.price?`<div class="deal-mrpx">${fmt(bestL.mrp)}</div>`:''}
+          </div>
+          ${bestL.delivery_info?`<div class="deal-meta">🚚 ${esc(bestL.delivery_info)}</div>`:''}
+          ${bestL.emi_info?`<div class="deal-meta">💳 ${esc(bestL.emi_info)}</div>`:''}
+        </div>
+        <a href="#" data-url="${esc(bestL.search_url||'')}" class="deal-buybtn">Buy on ${esc(bestL.platform)} →</a>
+      </div>`});
+  }
+
+  /* SLIDE 5 — INTEL */
+  const tips=data.buying_tips||[], coupons=data.coupon_sources||[];
+  slides.push({lbl:'Intel',bg:'sbg5',html:`
+    <div class="slide-body">
+      <div class="slide-tag">Deal Intelligence</div>
+      ${data.price_verdict?`<div class="intel-verdict">💡 ${esc(data.price_verdict)}</div>`:''}
+      <div class="intel-rows">
+        ${data.best_time?`<div class="intel-row"><span class="intel-icon">📅</span><span class="intel-text">${esc(data.best_time)}</span></div>`:''}
+        ${coupons.slice(0,2).map(c=>`<div class="intel-row"><span class="intel-icon">🏷️</span><span class="intel-text">${esc(c)}</span></div>`).join('')}
+        ${tips.slice(0,2).map(t=>`<div class="intel-row"><span class="intel-icon">💡</span><span class="intel-text">${esc(t)}</span></div>`).join('')}
+      </div>
+    </div>`});
+
+  return slides;
+}
+
+function makeCarouselHTML(slides){
+  const labels=['📊 Overview','💰 Prices','⚙️ Specs','🏆 Best Deal','🧠 Intel'];
+  return`<div class="carousel" id="carousel">
+    <div class="car-vp">
+      <div class="car-track" id="cartrack">
+        ${slides.map(s=>`<div class="car-slide ${s.bg}">${s.html}</div>`).join('')}
+      </div>
+    </div>
+    <button class="car-arrow car-prev" id="carprev">&#8249;</button>
+    <button class="car-arrow car-next" id="carnext">&#8250;</button>
+    <div class="car-dots" id="cardots">
+      ${slides.map((_,i)=>`<div class="cdot ${i===0?'on':''}" data-i="${i}"></div>`).join('')}
+    </div>
+    <div class="car-thumbs" id="carthumbs">
+      ${slides.map((s,i)=>`<div class="cthumb ${i===0?'on':''}" data-i="${i}">${(labels[i]||s.lbl).split(' ').slice(1).join(' ')||s.lbl}</div>`).join('')}
+    </div>
+  </div>`;
+}
+
+function goToSlide(idx){
+  const n=S.slides.length; if(!n)return;
+  idx=Math.max(0,Math.min(n-1,idx)); S.cidx=idx;
+  const t=document.getElementById('cartrack'); if(t) t.style.transform=`translateX(-${idx*100}%)`;
+  document.querySelectorAll('.cdot').forEach((d,i)=>d.classList.toggle('on',i===idx));
+  document.querySelectorAll('.cthumb').forEach((t,i)=>t.classList.toggle('on',i===idx));
+}
+
+function wireCarousel(){
+  const prev=document.getElementById('carprev'), next=document.getElementById('carnext');
+  if(prev) prev.addEventListener('click',()=>goToSlide(S.cidx-1));
+  if(next) next.addEventListener('click',()=>goToSlide(S.cidx+1));
+  document.querySelectorAll('.cdot').forEach(d=>d.addEventListener('click',()=>goToSlide(+d.dataset.i)));
+  document.querySelectorAll('.cthumb').forEach(t=>t.addEventListener('click',()=>goToSlide(+t.dataset.i)));
+}
+
+/* ──────── SORT + FILTER ──────── */
+function applyFS(){
+  if(!S.data||!S.data.listings) return;
+  let list=[...S.data.listings];
+  if(S.platform!=='all') list=list.filter(l=>(l.platform||'').toLowerCase()===S.platform.toLowerCase());
+  list.sort((a,b)=>{
+    switch(S.sort){
+      case 'price_asc':  return (a.price||0)-(b.price||0);
+      case 'price_desc': return (b.price||0)-(a.price||0);
+      case 'discount':   return ((b.mrp?getDsc(b.price,b.mrp):0)||b.discount_pct||0)-((a.mrp?getDsc(a.price,a.mrp):0)||a.discount_pct||0);
+      case 'rating':     return (b.rating||0)-(a.rating||0);
+      default: return 0;
+    }
+  });
+  S.filtered=list; rerenderListings();
+}
+
+/* ──────── RENDER CARD ──────── */
+function renderCard(l,isBest){
+  const col=pcol(l.platform);
+  const d=l.discount_pct||getDsc(l.price,l.mrp);
+  const bi=badgeInfo(l.badge,isBest);
+  const _mkCur=CUR_MAP[S.market]||'INR';
+  const _inrEq=_mkCur!=='INR'&&l.price?convertTo(l.price,_mkCur,'INR'):0;
+  return`<div class="pcard ${isBest?'isbest':''}">
+    ${bi?`<div class="pcbadge ${bi.cls}">${esc(bi.lbl)}</div>`:''}
+    <div class="pc-top">
+      <div class="pc-plat"><div class="platdot" style="background:${col}"></div><span style="color:${col}">${esc(l.platform||'—')}</span></div>
+      ${l.rating?`<div class="pc-rating">★ ${Number(l.rating).toFixed(1)}<span class="pc-rct"> (${fmtK(l.reviews_count)})</span></div>`:''}
+    </div>
+    <div><div class="pc-title">${esc(l.product_title||'')}</div>${l.variant?`<div class="pc-variant">${esc(l.variant)}</div>`:''}</div>
+    <div class="pc-prices">
+      <div class="price-main">${fmt(l.price)}</div>
+      ${l.mrp&&l.mrp>l.price?`<div class="price-mrp">${fmt(l.mrp)}</div>`:''}
+      ${d?`<div class="price-disc">−${d}%</div>`:''}
+      ${_inrEq?`<div class="fx-conv">≈ <span>₹${_inrEq.toLocaleString('en-IN')}</span></div>`:''}
+    </div>
+    <div class="pc-meta">
+      ${l.availability?`<div class="pc-meta-line"><span class="mi">✓</span><span class="avail">${esc(l.availability)}</span></div>`:''}
+      ${l.delivery_info?`<div class="pc-meta-line"><span class="mi">🚚</span><span>${esc(l.delivery_info)}</span></div>`:''}
+      ${l.emi_info?`<div class="pc-meta-line"><span class="mi">💳</span><span>${esc(l.emi_info)}</span></div>`:''}
+      ${l.seller?`<div class="pc-meta-line"><span class="mi">🏪</span><span>${esc(l.seller)}</span></div>`:''}
+    </div>
+    ${l.key_highlight?`<div class="pc-highlight">${esc(l.key_highlight)}</div>`:''}
+    <a href="#" data-url="${esc(l.search_url||'')}" class="buybtn ${isBest?'best':''}">Buy on ${esc(l.platform)} →</a>
+  </div>`;
+}
+
+/* ──────── RENDER TABLE ROW ──────── */
+function renderRow(l,isBest){
+  const col=pcol(l.platform);
+  const d=l.discount_pct||getDsc(l.price,l.mrp);
+  const _mkCur=CUR_MAP[S.market]||'INR';
+  const _inrEq=_mkCur!=='INR'&&l.price?convertTo(l.price,_mkCur,'INR'):0;
+  return`<tr class="${isBest?'best-row':''}">
+    <td><div class="tpl-pill"><div class="platdot" style="background:${col}"></div><span style="color:${col}">${esc(l.platform||'—')}</span>${isBest?'<span class="price-disc" style="font-size:10px">Best</span>':''}</div></td>
+    <td style="max-width:215px"><div style="font-weight:600;line-height:1.3">${esc(l.product_title||'')}</div>${l.variant?`<div style="font-size:11px;color:hsl(var(--muted-foreground))">${esc(l.variant)}</div>`:''}</td>
+    <td><div class="tbl-price">${fmt(l.price)}</div>${l.mrp&&l.mrp>l.price?`<div class="tbl-mrp">${fmt(l.mrp)}</div>`:''} ${_inrEq?`<div class="fx-conv">≈ <span>₹${_inrEq.toLocaleString('en-IN')}</span></div>`:''}</td>
+    <td>${d?`<div class="price-disc">−${d}%</div>`:'—'}</td>
+    <td>${l.rating?`<div class="tbl-rat">★ ${Number(l.rating).toFixed(1)}</div><div class="tbl-rct">${fmtK(l.reviews_count)}</div>`:'—'}</td>
+    <td style="font-size:12px;color:hsl(var(--muted-foreground));max-width:130px">${esc(l.delivery_info||'—')}</td>
+    <td><a href="#" data-url="${esc(l.search_url||'')}" class="tbl-buybtn ${isBest?'best':''}">Buy →</a></td>
+  </tr>`;
+}
+
+/* ──────── RERENDER LISTINGS ──────── */
+function rerenderListings(){
+  const {filtered,data,view}=S;
+  const all=data?.listings||[];
+  const prices=all.map(l=>l.price).filter(Boolean);
+  const minP=prices.length?Math.min(...prices):null;
+  const uPlats=new Set(filtered.map(l=>l.platform));
+  document.getElementById('rcount').textContent=`Showing ${filtered.length} listing${filtered.length!==1?'s':''} across ${uPlats.size} platform${uPlats.size!==1?'s':''}`;
+  const box=document.getElementById('lbox');
+  if(!filtered.length){box.innerHTML='<div class="nores">No listings match your current filters.</div>';return;}
+  if(view==='grid'){
+    box.innerHTML=`<div class="pgrid">${filtered.map(l=>renderCard(l,minP!=null&&l.price===minP)).join('')}</div>`;
+  } else {
+    box.innerHTML=`<div class="tbl-wrap"><table class="cmptable"><thead><tr><th>Platform</th><th>Product</th><th>Price</th><th>Discount</th><th>Rating</th><th>Delivery</th><th>Action</th></tr></thead><tbody>${filtered.map(l=>renderRow(l,minP!=null&&l.price===minP)).join('')}</tbody></table></div>`;
+  }
+}
+
+/* ──────── RENDER ALL RESULTS ──────── */
+function renderAll(data,query){
+  const screen=document.getElementById('resultscr');
+  const all=data.listings||[];
+  const prices=all.map(l=>l.price).filter(Boolean);
+  const minP=prices.length?Math.min(...prices):0, maxP=prices.length?Math.max(...prices):0;
+  const savings=maxP-minP;
+  const bestL=all.find(l=>l.price===minP), worstL=all.find(l=>l.price===maxP);
+  const platforms=[...new Set(all.map(l=>l.platform).filter(Boolean))];
+  const mk=MK[S.market]||MK.IN;
+  S.slides=buildSlides(data); S.cidx=0;
+
+  screen.innerHTML=`<div class="results">
+    <div class="ovcard">
+      <div class="ovemoji">${esc(data.emoji||'🛍️')}</div>
+      <div class="ovbody">
+        <div class="ovcat">${esc(data.category||'Product')} &middot; ${mk.flag} ${mk.name}</div>
+        <div class="ovtitle">${esc(data.query_interpreted||query)}</div>
+        ${data.deal_insight?`<div class="ovinsight">${esc(data.deal_insight)}</div>`:''}
+        ${data.price_verdict?`<div class="ovverdict">💡 ${esc(data.price_verdict)}</div>`:''}
+      </div>
+      <div class="ovstats">
+        <div><div class="stn">${all.length}</div><div class="stl">Listings</div></div>
+        <div><div class="stn">${platforms.length}</div><div class="stl">Platforms</div></div>
+        <div><div class="stn" style="color:var(--g)">${fmt(minP)}</div><div class="stl">Lowest</div></div>
+      </div>
+    </div>
+
+    ${makeCarouselHTML(S.slides)}
+
+    <div class="gpi-bar">
+      <button class="gpi-btn" id="gpibtn">🌍 Global Price Intel</button>
+      <span class="gpi-bar-sub">Compare across all markets · Live FX rates · Import cost estimates</span>
+    </div>
+    <div id="gpipanel"></div>
+
+    ${savings>0?`<div class="savings">
+      <div><div class="sav-hl">Maximum Savings Available</div>
+        <div class="sav-sub">Buy on <strong>${esc(bestL?.platform||'—')}</strong> instead of <strong>${esc(worstL?.platform||'—')}</strong></div></div>
+      <div style="text-align:right"><div class="sav-amt">${fmt(savings)}</div><div class="sav-lbl">you could save</div></div>
+    </div>`:''}
+
+    ${data.variants&&data.variants.length>1?`<div class="variants"><span class="variants-lbl">Variants:</span>${data.variants.map((v,i)=>`<span class="vchip ${i===0?'on':''}" data-v="${esc(v)}">${esc(v)}</span>`).join('')}</div>`:''}
+
+    <div class="controls">
+      <div class="f-chips" id="fchips">
+        <span class="fchip on" data-p="all">All (${all.length})</span>
+        ${platforms.map(p=>`<span class="fchip" data-p="${esc(p)}">${esc(p)} (${all.filter(l=>l.platform===p).length})</span>`).join('')}
+      </div>
+      <div class="ctrl-r">
+        <select class="sortsel" id="sortsel">
+          <option value="price_asc">Price: Low → High</option>
+          <option value="price_desc">Price: High → Low</option>
+          <option value="discount">Best Discount</option>
+          <option value="rating">Top Rated</option>
+        </select>
+        <div class="viewtog">
+          <button class="vbtn on" id="gbtn">⊞</button>
+          <button class="vbtn" id="tbtn">☰</button>
+        </div>
+      </div>
+    </div>
+    <div class="rcount" id="rcount"></div>
+    <div style="font-size:11px;color:#94a3b8;margin-bottom:10px;padding:3px 0;border-top:1px dashed #e2e8f0;padding-top:8px">ℹ Prices shown are AI estimates based on typical market data. Click <strong>Buy</strong> on any card to see real live listings on that platform.</div>
+    <div id="lbox"></div>
+
+    ${data.specs&&data.specs.length?`<div class="infobox"><div class="ibtitle">Key Specifications</div><div class="specs-g">${data.specs.map(s=>`<div class="spec-row"><div class="spec-k">${esc(s.key)}</div><div class="spec-v">${esc(s.value)}</div></div>`).join('')}</div></div>`:''}
+
+    ${data.buying_tips&&data.buying_tips.length?`<div class="infobox"><div class="ibtitle">Smart Buying Tips</div>${data.buying_tips.map(t=>`<div class="tip-row"><div class="tipdot"></div><div class="tiptext">${esc(t)}</div></div>`).join('')}</div>`:''}
+
+    ${data.best_time||(data.coupon_sources&&data.coupon_sources.length)?`<div class="info-pair">
+      ${data.best_time?`<div class="infohalf"><div class="ibtitle">Best Time to Buy</div><div class="infoval">${esc(data.best_time)}</div></div>`:''}
+      ${data.coupon_sources&&data.coupon_sources.length?`<div class="infohalf"><div class="ibtitle">Coupon &amp; Cashback</div><div>${data.coupon_sources.map(c=>`<span class="ctag">${esc(c)}</span>`).join('')}</div></div>`:''}
+    </div>`:''}
+
+    ${data.alternatives&&data.alternatives.length?`<div class="infobox"><div class="ibtitle">Alternatives to Consider</div><div class="alt-chips">${data.alternatives.map(a=>`<span class="alt-chip" data-q="${esc(a)}">${esc(a)}</span>`).join('')}</div></div>`:''}
+  </div>`;
+
+  wireCarousel();
+  document.getElementById('gpibtn')?.addEventListener('click',()=>runGlobalCompare(query,data));
+
+  document.getElementById('fchips').addEventListener('click',e=>{
+    const c=e.target.closest('.fchip'); if(!c)return;
+    document.querySelectorAll('#fchips .fchip').forEach(x=>x.classList.remove('on'));
+    c.classList.add('on'); S.platform=c.dataset.p; applyFS();
+  });
+  document.getElementById('sortsel').addEventListener('change',e=>{S.sort=e.target.value;applyFS();});
+  document.getElementById('gbtn').addEventListener('click',()=>{S.view='grid';document.getElementById('gbtn').classList.add('on');document.getElementById('tbtn').classList.remove('on');rerenderListings();});
+  document.getElementById('tbtn').addEventListener('click',()=>{S.view='table';document.getElementById('tbtn').classList.add('on');document.getElementById('gbtn').classList.remove('on');rerenderListings();});
+  screen.querySelectorAll('.vchip').forEach(c=>c.addEventListener('click',()=>{
+    screen.querySelectorAll('.vchip').forEach(x=>x.classList.remove('on')); c.classList.add('on');
+    const base=(data.query_interpreted||query).replace(/\b\d+\s?(GB|TB|inch)/gi,'').trim();
+    const nq=`${base} ${c.dataset.v}`; document.getElementById('si').value=nq; runSearch(nq);
+  }));
+  screen.querySelectorAll('.alt-chip').forEach(c=>c.addEventListener('click',()=>{document.getElementById('si').value=c.dataset.q;runSearch(c.dataset.q);}));
+  applyFS();
+}
+
+/* ──────── GLOBAL PRICE INTELLIGENCE ──────── */
+async function runGlobalCompare(query,baseData){
+  const panel=document.getElementById('gpipanel');if(!panel)return;
+  panel.innerHTML=`<div class="gpi-panel"><div class="gpi-loading"><div class="lring"></div>Fetching global prices across 8 markets…</div></div>`;
+  const cat=baseData?.category||'Electronics';
+  try{
+    const r=await ctai.infer({
+      system:'You are a global e-commerce price intelligence engine. Your ENTIRE response must be a single raw JSON object — no markdown, no backticks, no code fences, no explanation, no text before or after. Start immediately with { and end with }.',
+      prompt:`Global price comparison for: "${query}" (category: ${cat})
+
+Return ONLY this exact JSON structure with real estimated prices for "${query}" — no text before or after the JSON:
+{"markets":[{"code":"IN","flag":"🇮🇳","name":"India","price":134900,"currency":"INR","platform":"Amazon India","availability":"In Stock"},{"code":"US","flag":"🇺🇸","name":"USA","price":999,"currency":"USD","platform":"Amazon","availability":"In Stock"},{"code":"GB","flag":"🇬🇧","name":"UK","price":849,"currency":"GBP","platform":"Amazon UK","availability":"In Stock"},{"code":"AE","flag":"🇦🇪","name":"UAE","price":3649,"currency":"AED","platform":"Amazon UAE","availability":"In Stock"},{"code":"SG","flag":"🇸🇬","name":"Singapore","price":1399,"currency":"SGD","platform":"Amazon SG","availability":"In Stock"},{"code":"AU","flag":"🇦🇺","name":"Australia","price":1499,"currency":"AUD","platform":"JB Hi-Fi","availability":"In Stock"},{"code":"DE","flag":"🇩🇪","name":"Germany","price":1099,"currency":"EUR","platform":"Amazon Germany","availability":"In Stock"},{"code":"JP","flag":"🇯🇵","name":"Japan","price":159800,"currency":"JPY","platform":"Yodobashi","availability":"In Stock"}],"insight":"2 sentences on why prices differ across markets.","best_for_india":"1 sentence tip on best market to buy from for Indian shoppers."}
+
+Replace ALL 8 market prices with real estimates for "${query}". Keep all 8 markets. Respond with raw JSON only.`,
+      max_tokens:1400
+    });
+    let data=null;
+    try{
+      const raw=(r?.content||'').trim();
+      try{data=JSON.parse(raw);}catch(_){
+        const si=raw.indexOf('{'),ei=raw.lastIndexOf('}');
+        if(si>=0&&ei>si){try{data=JSON.parse(raw.slice(si,ei+1));}catch(_2){}}
+      }
+    }catch(_e){}
+    if(data?.markets?.length){renderGlobalCompare(panel,data,query,cat);}
+    else{panel.innerHTML=`<div class="gpi-panel"><div class="gpi-loading">Could not load global data — try again.</div></div>`;}
+  }catch(e){
+    panel.innerHTML=`<div class="gpi-panel"><div class="gpi-loading">Error: ${esc(e.message||'Something went wrong')}</div></div>`;
+  }
+}
+
+function renderGlobalCompare(panel,data,query,category){
+  const markets=data.markets||[];
+  const homeMktCode=S.market||'IN';
+
+  // Convert all to INR
+  const enriched=markets.map(m=>({
+    ...m,
+    inrPrice:convertTo(m.price,m.currency,'INR'),
+    landedIndia:m.code==='IN'
+      ?convertTo(m.price,m.currency,'INR')
+      :landedCostIndia(convertTo(m.price,m.currency,'INR'),category)
+  }));
+
+  const homeRow=enriched.find(m=>m.code===homeMktCode)||enriched.find(m=>m.code==='IN');
+  const homeINR=homeRow?.inrPrice||0;
+  const sorted=[...enriched].sort((a,b)=>a.inrPrice-b.inrPrice);
+  const cheapestCode=sorted[0]?.code;
+  const cheapestLandedCode=[...enriched].sort((a,b)=>a.landedIndia-b.landedIndia)[0]?.code;
+
+  const rows=sorted.map(m=>{
+    const isCheapest=m.code===cheapestCode;
+    const isHome=m.code===homeMktCode;
+    const delta=homeINR>0?Math.round(((m.inrPrice-homeINR)/homeINR)*100):0;
+    const deltaLbl=isHome?'Your market':delta>0?`+${delta}% costlier`:`${Math.abs(delta)}% cheaper`;
+    const deltaCls=isHome?'home':delta>0?'expensive':'cheaper';
+    const dutyNote=m.code!=='IN'?`<small>(+${Math.round((IMPORT_DUTY[category]||IMPORT_DUTY.General)*100)}% duty est.)</small>`:'';
+    return`<tr class="${isCheapest?'gpi-row-cheapest':''} ${isHome?'gpi-row-home':''}">
+      <td><div class="gpi-mkt">${m.flag} ${m.name}${isCheapest?'<span class="gpi-badge-cheap">Cheapest</span>':''}</div></td>
+      <td><div class="gpi-local">${fmtCur(m.price,m.currency)}</div></td>
+      <td><div class="gpi-inr">${fmtCur(m.inrPrice,'INR')}</div></td>
+      <td><span class="gpi-delta ${deltaCls}">${deltaLbl}</span></td>
+      <td><div class="gpi-landed">${m.code==='IN'?'<span style="color:#94a3b8">—</span>':fmtCur(m.landedIndia,'INR')} ${dutyNote}</div></td>
+      <td><a href="#" data-url="${esc(buildPlatformUrl(m.platform,query)||'#')}" class="tbl-buybtn">Buy →</a></td>
+    </tr>`;
+  }).join('');
+
+  // Savings callout
+  const cheapestLanded=enriched.find(m=>m.code===cheapestLandedCode);
+  const savingsLanded=homeINR-(cheapestLanded?.landedIndia||homeINR);
+
+  panel.innerHTML=`<div class="gpi-panel">
+    <div class="gpi-head">
+      <div class="gpi-head-title">🌍 Global Price Intelligence — ${esc(query)}</div>
+      <div class="gpi-head-sub">Prices in local currency · Converted to INR · Import cost to India estimated · Exchange rate: 1 USD = ₹${RATES.INR?.toFixed(1)||'84.2'}</div>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="gpi-table">
+        <thead><tr>
+          <th>Market</th><th>Local Price</th><th>In INR</th><th>vs ${homeRow?.flag||''} Your Market</th><th>Landed Cost (India)</th><th>Buy</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+    ${savingsLanded>0&&cheapestLanded?.code!==homeMktCode?`<div class="gpi-insight">
+      <strong>💰 Best deal if importing:</strong> Buy from <strong>${cheapestLanded?.flag} ${cheapestLanded?.name}</strong> — landed cost in India ≈ ${fmtCur(cheapestLanded?.landedIndia,'INR')}, saving approx. ${fmtCur(savingsLanded,'INR')} vs buying locally (after ~${Math.round((IMPORT_DUTY[category]||IMPORT_DUTY.General)*100)}% customs + GST + ₹2,500 shipping).
+    </div>`:''}
+    ${data.insight?`<div class="gpi-insight"><strong>📊 Market Intel:</strong> ${esc(data.insight)}</div>`:''}
+    ${data.best_for_india?`<div class="gpi-insight"><strong>🛒 Buy from India tip:</strong> ${esc(data.best_for_india)}</div>`:''}
+    <div class="gpi-insight" style="font-size:11px;color:#94a3b8;border-top:1px dashed #e2e8f0;padding-top:10px">⚠️ Prices are AI estimates. Import duties are approximate — actual costs vary by courier, declared value, and current CBIC rates. Always verify before purchasing abroad.</div>
+  </div>`;
+}
+
+/* ──────── SEARCH ──────── */
+/* ──────── EXCHANGE RATE ENGINE ──────── */
+// Fallback rates — refreshed from AI on startup (USD base = 1)
+let RATES={USD:1,INR:94.78,AED:3.6725,SGD:1.295,GBP:0.756,EUR:0.876,AUD:1.439,JPY:161.46};
+const CUR_MAP={IN:'INR',US:'USD',GB:'GBP',AE:'AED',SG:'SGD',AU:'AUD',DE:'EUR',JP:'JPY'};
+const CUR_SYM={USD:'$',INR:'₹',AED:'AED ',SGD:'S$',GBP:'£',EUR:'€',AUD:'A$',JPY:'¥'};
+
+// Import duty + GST effective rate to India by product category
+const IMPORT_DUTY={
+  Electronics:0.44, Appliances:0.44, Fashion:0.40, Beauty:0.35,
+  Pharmacy:0.20, Furniture:0.38, Sports:0.28, Books:0.05,
+  Grocery:0.30, FMCG:0.30, General:0.28
+};
+
+async function refreshRates(){
+  try{
+    // Phase 1: Load from entity store (agent-maintained real rates)
+    const ents=await ctai.queryEntities('currency_rate',{limit:1,sort:'created_at:desc'});
+    if(ents&&ents.length){
+      const f=ents[0].facts||{};
+      if(f.rates_json){
+        const r=JSON.parse(f.rates_json);
+        if(r.USD&&r.INR){RATES={...RATES,...r};return;}
+      }
+    }
+  }catch(_e){}
+  // Fallback: ask AI for current rates
+  try{
+    const r=await ctai.infer({
+      system:'You are a live FX rate API. Return ONLY raw JSON, no markdown, no explanation whatsoever.',
+      prompt:`Return current approximate exchange rates with USD as base=1 as a single JSON object.
+Use the most current approximate rates you know:
+{"USD":1,"INR":94.78,"AED":3.6725,"SGD":1.295,"GBP":0.756,"EUR":0.876,"AUD":1.439,"JPY":161.46}
+Replace values with current rates.`,
+      max_tokens:150
+    });
+    const txt=(r?.content||'').replace(/```json?\n?/gi,'').replace(/```\n?/g,'').trim();
+    const parsed=JSON.parse(txt);
+    if(parsed?.USD&&parsed?.INR){RATES={...RATES,...parsed};try{localStorage.setItem('cm_rates',JSON.stringify({...parsed,ts:Date.now()}));}catch(_){}}
+  }catch(_e){}
+}
+
+function convertTo(amount,fromCur,toCur){
+  if(!amount||!fromCur||!toCur||fromCur===toCur)return amount;
+  const inUSD=amount/(RATES[fromCur]||1);
+  return Math.round(inUSD*(RATES[toCur]||1));
+}
+
+function fmtCur(amount,cur){
+  if(!amount)return '—';
+  const sym=CUR_SYM[cur]||cur+' ';
+  if(cur==='JPY')return sym+Math.round(amount).toLocaleString('en-IN');
+  if(cur==='INR')return '₹'+Math.round(amount).toLocaleString('en-IN');
+  return sym+Number(amount).toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0});
+}
+
+function landedCostIndia(priceINR,category){
+  const rate=IMPORT_DUTY[category]||IMPORT_DUTY.General;
+  return Math.round(priceINR*(1+rate)+2500); // +₹2,500 flat shipping estimate
+}
+
+function getHomeCur(){return CUR_MAP[S.market]||'INR';}
+
+/* ──────── PLATFORM DIRECTORY ──────── */
+function getMarketPlatforms(market){
+  const c={
+    IN:[
+      ['Grocery & Fresh Produce','BigBasket, Blinkit, Zepto, Swiggy Instamart, JioMart, Dunzo, Milkbasket, Nature\'s Basket'],
+      ['Electronics & Tech','Amazon India, Flipkart, Croma, Reliance Digital, Vijay Sales, Tata CLiQ'],
+      ['Fashion & Apparel','Myntra, AJIO, Meesho, Nykaa Fashion, Amazon India, Flipkart, Snapdeal'],
+      ['Beauty & Personal Care','Nykaa, Purplle, Amazon India, Flipkart, Smytten'],
+      ['Pharmacy & Healthcare','1mg, PharmEasy, Netmeds, Apollo Pharmacy, Amazon India'],
+      ['Furniture & Home Decor','Pepperfry, Urban Ladder, IKEA India, Amazon India, HomeTown, Fabindia'],
+      ['Sports & Fitness','Decathlon, Amazon India, Flipkart, SportShopy'],
+      ['Books & Stationery','Amazon India, Flipkart, Snapdeal'],
+      ['Food & FMCG','BigBasket, JioMart, Amazon India, Flipkart, Blinkit, Zepto'],
+      ['General Multi-category','Amazon India, Flipkart, JioMart, Meesho, Snapdeal'],
+    ],
+    US:[
+      ['Grocery & Fresh','Amazon Fresh, Instacart, Whole Foods, Walmart Grocery, Kroger, Target Grocery'],
+      ['Electronics & Tech','Amazon, Best Buy, Newegg, B&H Photo, Walmart, Target'],
+      ['Fashion & Apparel','Amazon, Walmart, Target, Macy\'s, Nordstrom, ASOS US'],
+      ['Beauty & Personal Care','Sephora, Ulta Beauty, Amazon, Target, Walmart'],
+      ['Pharmacy & Health','Walgreens, CVS, Amazon Pharmacy, Rite Aid, Walmart Pharmacy'],
+      ['Home & Furniture','Wayfair, IKEA, Amazon, Target, Walmart, Overstock'],
+      ['Sports & Fitness','REI, Dick\'s Sporting Goods, Amazon, Target, Walmart'],
+      ['Books','Amazon, Barnes & Noble, Target'],
+      ['General','Amazon, Walmart, Target, Costco'],
+    ],
+    GB:[
+      ['Grocery & Fresh','Tesco, Sainsbury\'s, ASDA, Ocado, Waitrose, Morrisons, Iceland'],
+      ['Electronics & Tech','Amazon UK, Currys, Argos, John Lewis, AO'],
+      ['Fashion & Apparel','ASOS, Amazon UK, Marks & Spencer, Next, John Lewis, Very'],
+      ['Beauty & Personal Care','Boots, Lookfantastic, Amazon UK, Superdrug, Feelunique'],
+      ['Pharmacy & Health','Boots, Superdrug, LloydsPharmacy, Amazon UK'],
+      ['Home & Furniture','IKEA UK, John Lewis, Argos, Wayfair UK, Amazon UK'],
+      ['Sports & Fitness','Sports Direct, JD Sports, Decathlon UK, Amazon UK'],
+      ['General','Amazon UK, Argos, John Lewis, Marks & Spencer, Very'],
+    ],
+    AE:[
+      ['Grocery & Fresh','Carrefour UAE, Spinneys, LuLu Hypermarket, Talabat Mart, InstaShop, Noon Food'],
+      ['Electronics & Tech','Amazon UAE, Noon, Sharaf DG, eXtra UAE, Jumbo Electronics'],
+      ['Fashion & Apparel','Noon, Amazon UAE, Namshi, 6th Street, H&M UAE'],
+      ['Beauty & Personal Care','Noon, Amazon UAE, Sephora UAE, Namshi, Faces'],
+      ['Pharmacy & Health','Life Pharmacy, Aster Pharmacy, Amazon UAE, Noon'],
+      ['Home & Furniture','IKEA UAE, Amazon UAE, Noon, Home Centre, Pan Emirates'],
+      ['General','Amazon UAE, Noon, Carrefour UAE, LuLu Hypermarket'],
+    ],
+    SG:[
+      ['Grocery & Fresh','FairPrice Online, RedMart, Amazon Fresh SG, Grab Mart, Cold Storage Online, Shopee Supermarket'],
+      ['Electronics & Tech','Amazon SG, Lazada SG, Shopee SG, Harvey Norman SG, Courts SG'],
+      ['Fashion & Apparel','Lazada SG, Shopee SG, Zalora SG, Amazon SG, ASOS Singapore'],
+      ['Beauty & Personal Care','Lazada SG, Shopee SG, Sephora SG, Guardian SG, Watsons SG'],
+      ['Pharmacy & Health','Guardian SG, Watsons SG, Amazon SG, iHerb Singapore'],
+      ['Home & Furniture','IKEA SG, Lazada SG, Shopee SG, HipVan, Castlery'],
+      ['General','Lazada SG, Shopee SG, Amazon SG, Qoo10'],
+    ],
+    AU:[
+      ['Grocery & Fresh','Coles Online, Woolworths Online, Amazon Fresh AU, IGA Online, Harris Farm Online'],
+      ['Electronics & Tech','Amazon AU, JB Hi-Fi, Harvey Norman, Officeworks, Kogan'],
+      ['Fashion & Apparel','Amazon AU, The Iconic, Myer, David Jones, Cotton On, ASOS AU'],
+      ['Beauty & Personal Care','Priceline, Mecca, Amazon AU, Sephora AU, Adore Beauty'],
+      ['Pharmacy & Health','Chemist Warehouse, Priceline Pharmacy, Amazon AU, iHerb AU'],
+      ['Home & Furniture','IKEA AU, Amazon AU, Temple & Webster, Kmart AU, Fantastic Furniture'],
+      ['Sports & Fitness','Rebel Sport, Decathlon AU, Amazon AU, Anaconda'],
+      ['General','Amazon AU, Kmart AU, Big W, Target AU, eBay AU'],
+    ],
+    DE:[
+      ['Grocery & Fresh','REWE Online, Edeka Online, Kaufland Online, Amazon Fresh DE, Lidl Online, Penny Online'],
+      ['Electronics & Tech','Amazon Germany, MediaMarkt, Saturn, Cyberport, Notebooksbilliger'],
+      ['Fashion & Apparel','Amazon Germany, Zalando DE, Otto, About You, H&M DE'],
+      ['Beauty & Personal Care','Douglas, Amazon Germany, Rossmann Online, dm Online, Lookfantastic DE'],
+      ['Pharmacy & Health','Aponeo, DocMorris, Amazon Germany, Shop Apotheke'],
+      ['Home & Furniture','IKEA DE, Amazon Germany, Otto, Wayfair DE, home24'],
+      ['Sports & Fitness','Amazon Germany, Decathlon DE, SportScheck, Intersport DE'],
+      ['General','Amazon Germany, Otto, Zalando DE, Kaufland, eBay DE'],
+    ],
+    JP:[
+      ['Grocery & Fresh','Amazon Fresh JP, Oisix, Yahoo Shopping JP, AEON Online, Seiyu Online'],
+      ['Electronics & Tech','Amazon Japan, Rakuten, Yodobashi, Bic Camera, Kakaku'],
+      ['Fashion & Apparel','Amazon Japan, ZOZOTOWN, Rakuten Fashion, Uniqlo JP, Mercari JP'],
+      ['Beauty & Personal Care','Amazon Japan, Rakuten Beauty, @cosme Shopping, Cosme Kitchen'],
+      ['Pharmacy & Health','Amazon Japan, Matsumoto Kiyoshi Online, Rakuten, Sundrug Online'],
+      ['Home & Furniture','Amazon Japan, Nitori Online, IKEA JP, Rakuten Interior'],
+      ['Sports & Fitness','Amazon Japan, Rakuten Sports, Himaraya Online'],
+      ['General','Amazon Japan, Rakuten, Yahoo Shopping JP, Mercari JP'],
+    ],
+  };
+  return (c[market]||c.IN).map(([cat,plats])=>`  - ${cat}: ${plats}`).join('\n');
+}
+
+function buildPlatformUrl(platform,query){
+  const q=encodeURIComponent(query);
+  const h=q.replace(/%20/g,'-');
+  const p=(platform||'').toLowerCase();
+  if(p.includes('meesho'))return`https://www.meesho.com/search?q=${q}`;
+  if(p.includes('flipkart'))return`https://www.flipkart.com/search?q=${q}`;
+  if(p.includes('amazon india')||p==='amazon in')return`https://www.amazon.in/s?k=${q}`;
+  if(p.includes('amazon')&&p.includes('uk'))return`https://www.amazon.co.uk/s?k=${q}`;
+  if(p.includes('amazon')&&p.includes('germany'))return`https://www.amazon.de/s?k=${q}`;
+  if(p.includes('amazon')&&p.includes('japan'))return`https://www.amazon.co.jp/s?k=${q}`;
+  if(p.includes('amazon')&&(p.includes('sg')||p.includes('singapore')))return`https://www.amazon.sg/s?k=${q}`;
+  if(p.includes('amazon')&&(p.includes('au')||p.includes('australia')))return`https://www.amazon.com.au/s?k=${q}`;
+  if(p.includes('amazon')&&(p.includes('uae')||p.includes(' ae')))return`https://www.amazon.ae/s?k=${q}`;
+  if(p==='amazon'||p.includes('amazon us')||p.includes('amazon.com'))return`https://www.amazon.com/s?k=${q}`;
+  if(p.includes('amazon'))return`https://www.amazon.in/s?k=${q}`;
+  if(p.includes('croma'))return`https://www.croma.com/searchB?q=${q}`;
+  if(p.includes('myntra'))return`https://www.myntra.com/${h}`;
+  if(p.includes('nykaa fashion'))return`https://www.nykaafashion.com/search/result/?q=${q}`;
+  if(p.includes('nykaa'))return`https://www.nykaa.com/search/result/?q=${q}`;
+  if(p.includes('tata cliq')||p.includes('tatacliq'))return`https://www.tatacliq.com/search/?searchCategory=all&text=${q}`;
+  if(p.includes('reliance digital'))return`https://www.reliancedigital.in/search?q=${q}`;
+  if(p.includes('jiomart'))return`https://www.jiomart.com/search/${q}`;
+  if(p.includes('best buy'))return`https://www.bestbuy.com/site/searchpage.jsp?st=${q}`;
+  if(p.includes('walmart'))return`https://www.walmart.com/search?q=${q}`;
+  if(p.includes('target'))return`https://www.target.com/s?searchTerm=${q}`;
+  if(p.includes('newegg'))return`https://www.newegg.com/p/pl?d=${q}`;
+  if(p.includes('b&h')||p.includes('bh photo'))return`https://www.bhphotovideo.com/c/search?Ntt=${q}`;
+  if(p.includes('currys'))return`https://www.currys.co.uk/search?q=${q}`;
+  if(p.includes('argos'))return`https://www.argos.co.uk/search/${q}/`;
+  if(p.includes('john lewis'))return`https://www.johnlewis.com/search?search-term=${q}`;
+  if(p.includes('noon'))return`https://www.noon.com/uae-en/search?q=${q}`;
+  if(p.includes('sharaf'))return`https://www.sharafdg.com/search?q=${q}`;
+  if(p.includes('carrefour'))return`https://www.carrefouruae.com/mafuae/en/c/FGED?text=${q}`;
+  if(p.includes('lazada'))return`https://www.lazada.sg/catalog/?q=${q}`;
+  if(p.includes('shopee'))return`https://shopee.sg/search?keyword=${q}`;
+  if(p.includes('courts'))return`https://www.courts.com.sg/search?q=${q}`;
+  if(p.includes('harvey norman')&&p.includes('sg'))return`https://www.harveynorman.com.sg/search?q=${q}`;
+  if(p.includes('harvey norman'))return`https://www.harveynorman.com.au/search?q=${q}`;
+  if(p.includes('jb hi-fi')||p.includes('jb hifi'))return`https://www.jbhifi.com.au/search?q=${q}`;
+  if(p.includes('kogan'))return`https://www.kogan.com/au/shop/?q=${q}`;
+  if(p.includes('officeworks'))return`https://www.officeworks.com.au/shop/officeworks/search?q=${q}`;
+  if(p.includes('mediamarkt'))return`https://www.mediamarkt.de/de/search.html?query=${q}`;
+  if(p.includes('saturn'))return`https://www.saturn.de/de/search.html?query=${q}`;
+  if(p.includes('otto'))return`https://www.otto.de/suche/${q}/`;
+  if(p.includes('rakuten'))return`https://search.rakuten.co.jp/search/mall/${q}/`;
+  if(p.includes('yodobashi'))return`https://www.yodobashi.com/?word=${q}`;
+  if(p.includes('bic camera'))return`https://www.biccamera.com/bc/category/search.jsp?q=${q}`;
+  if(p.includes('cyberport'))return`https://www.cyberport.de/search/?keywords=${q}`;
+  if(p.includes('ao.com')||p==='ao')return`https://ao.com/l/${h}/`;
+  if(p.includes('very'))return`https://www.very.co.uk/search?q=${q}`;
+  if(p.includes('bigbasket'))return`https://www.bigbasket.com/ps/?q=${q}`;
+  if(p.includes('blinkit'))return`https://blinkit.com/s/?q=${q}`;
+  if(p.includes('zepto'))return`https://www.zeptonow.com/search?query=${q}`;
+  if(p.includes('swiggy instamart')||p.includes('instamart'))return`https://www.swiggy.com/search?query=${q}`;
+  if(p.includes('swiggy'))return`https://www.swiggy.com/search?query=${q}`;
+  if(p.includes('dunzo'))return`https://www.dunzo.com/`;
+  if(p.includes('milkbasket'))return`https://www.milkbasket.com/`;
+  if(p.includes('nature\'s basket')||p.includes('natures basket'))return`https://www.naturesbasket.co.in/search?q=${q}`;
+  if(p.includes('1mg'))return`https://www.1mg.com/search/all?name=${q}`;
+  if(p.includes('pharmeasy'))return`https://pharmeasy.in/search/all?name=${q}`;
+  if(p.includes('netmeds'))return`https://www.netmeds.com/catalogsearch/result?q=${q}`;
+  if(p.includes('apollo pharmacy'))return`https://www.apollopharmacy.in/search-medicines/${q}`;
+  if(p.includes('ajio'))return`https://www.ajio.com/search/?text=${q}`;
+  if(p.includes('nykaa fashion'))return`https://www.nykaafashion.com/search/result/?q=${q}`;
+  if(p.includes('purplle'))return`https://www.purplle.com/search?q=${q}`;
+  if(p.includes('pepperfry'))return`https://www.pepperfry.com/site/search.html?q=${q}`;
+  if(p.includes('urban ladder'))return`https://www.urbanladder.com/search?q=${q}`;
+  if(p.includes('hometown'))return`https://www.hometown.in/search?q=${q}`;
+  if(p.includes('fabindia'))return`https://www.fabindia.com/search?q=${q}`;
+  if(p.includes('decathlon'))return`https://www.decathlon.in/search?Ntt=${q}`;
+  if(p.includes('vijay sales'))return`https://www.vijaysales.com/search/${q}`;
+  if(p.includes('ikea india'))return`https://www.ikea.com/in/en/search/?q=${q}`;
+  if(p.includes('ikea uae'))return`https://www.ikea.com/ae/en/search/?q=${q}`;
+  if(p.includes('ikea sg')||p.includes('ikea singapore'))return`https://www.ikea.com/sg/en/search/?q=${q}`;
+  if(p.includes('ikea au')||p.includes('ikea australia'))return`https://www.ikea.com/au/en/search/?q=${q}`;
+  if(p.includes('ikea de')||p.includes('ikea germany'))return`https://www.ikea.com/de/de/search/?q=${q}`;
+  if(p.includes('ikea jp')||p.includes('ikea japan'))return`https://www.ikea.com/jp/ja/search/?q=${q}`;
+  if(p.includes('ikea uk'))return`https://www.ikea.com/gb/en/search/?q=${q}`;
+  if(p.includes('ikea'))return`https://www.ikea.com/in/en/search/?q=${q}`;
+  if(p.includes('wayfair uk'))return`https://www.wayfair.co.uk/keyword.php?keyword=${q}`;
+  if(p.includes('wayfair'))return`https://www.wayfair.com/keyword.php?keyword=${q}`;
+  if(p.includes('sephora uae'))return`https://www.sephora.ae/en/search?keyword=${q}`;
+  if(p.includes('sephora sg'))return`https://www.sephora.sg/search?keyword=${q}`;
+  if(p.includes('sephora au'))return`https://www.sephora.com.au/search?keyword=${q}`;
+  if(p.includes('sephora'))return`https://www.sephora.com/search?keyword=${q}`;
+  if(p.includes('ulta'))return`https://www.ulta.com/featured/search#q=${q}`;
+  if(p.includes('instacart'))return`https://www.instacart.com/store/s?k=${q}`;
+  if(p.includes('whole foods'))return`https://www.amazon.com/s?k=${q}&i=wholefoods`;
+  if(p.includes('kroger'))return`https://www.kroger.com/search?query=${q}`;
+  if(p.includes('walgreens'))return`https://www.walgreens.com/search/results.jsp?Ntt=${q}`;
+  if(p.includes('cvs'))return`https://www.cvs.com/search?searchTerm=${q}`;
+  if(p.includes('rite aid'))return`https://www.riteaid.com/shop/catalogsearch/result?q=${q}`;
+  if(p.includes('macy\'s')||p.includes('macys'))return`https://www.macys.com/shop/featured/search?keyword=${q}`;
+  if(p.includes('nordstrom'))return`https://www.nordstrom.com/sr?keyword=${q}`;
+  if(p.includes('rei'))return`https://www.rei.com/search?q=${q}`;
+  if(p.includes('dick\'s sporting')||p.includes('dicks sporting'))return`https://www.dickssportinggoods.com/search/SearchDisplay?searchTerm=${q}`;
+  if(p.includes('barnes & noble')||p.includes('barnes noble'))return`https://www.barnesandnoble.com/s/${q}`;
+  if(p.includes('asos'))return`https://www.asos.com/search/?q=${q}`;
+  if(p.includes('tesco'))return`https://www.tesco.com/groceries/en-GB/search?query=${q}`;
+  if(p.includes('sainsbury\'s')||p.includes('sainsburys'))return`https://www.sainsburys.co.uk/gol-ui/SearchDisplayView?filters[query]=${q}`;
+  if(p.includes('asda'))return`https://groceries.asda.com/search/${q}`;
+  if(p.includes('ocado'))return`https://www.ocado.com/search?entry=${q}`;
+  if(p.includes('waitrose'))return`https://www.waitrose.com/ecom/shop/search?&searchTerm=${q}`;
+  if(p.includes('morrisons'))return`https://groceries.morrisons.com/search?entry=${q}`;
+  if(p.includes('boots'))return`https://www.boots.com/search?q=${q}`;
+  if(p.includes('superdrug'))return`https://www.superdrug.com/search?q=${q}`;
+  if(p.includes('lookfantastic'))return`https://www.lookfantastic.com/results?q=${q}`;
+  if(p.includes('marks & spencer')||p.includes('m&s'))return`https://www.marksandspencer.com/l/search-results?q=${q}`;
+  if(p.includes('sports direct'))return`https://www.sportsdirect.com/search?term=${q}`;
+  if(p.includes('jd sports'))return`https://www.jdsports.co.uk/search/?searchText=${q}`;
+  if(p.includes('talabat'))return`https://www.talabat.com/search/${q}`;
+  if(p.includes('lulu hypermarket')||p.includes('lulu'))return`https://www.luluhypermarket.com/en-ae/search?q=${q}`;
+  if(p.includes('extra uae')||p.includes('extra'))return`https://www.extra.com/en-ae/search/?text=${q}`;
+  if(p.includes('jumbo'))return`https://www.jumbosme.com/en/search/?q=${q}`;
+  if(p.includes('namshi'))return`https://www.namshi.com/search/?q=${q}`;
+  if(p.includes('6th street'))return`https://en-ae.6thstreet.com/search/?q=${q}`;
+  if(p.includes('zalora'))return`https://www.zalora.sg/search/?q=${q}`;
+  if(p.includes('hipvan'))return`https://hipvan.com/search?q=${q}`;
+  if(p.includes('guardian'))return`https://www.guardian.com.sg/search?q=${q}`;
+  if(p.includes('watsons'))return`https://www.watsons.com.sg/search?q=${q}`;
+  if(p.includes('fairprice'))return`https://www.fairprice.com.sg/search?query=${q}`;
+  if(p.includes('redmart'))return`https://www.fairprice.com.sg/search?query=${q}`;
+  if(p.includes('grab mart')||p.includes('grabmart'))return`https://food.grab.com/sg/en/restaurants`;
+  if(p.includes('the iconic'))return`https://www.theiconic.com.au/search/?q=${q}`;
+  if(p.includes('myer'))return`https://www.myer.com.au/search?query=${q}`;
+  if(p.includes('chemist warehouse'))return`https://www.chemistwarehouse.com.au/search?q=${q}`;
+  if(p.includes('priceline'))return`https://www.priceline.com.au/search?q=${q}`;
+  if(p.includes('rebel sport'))return`https://www.rebelsport.com.au/search?q=${q}`;
+  if(p.includes('coles'))return`https://www.coles.com.au/search/products?q=${q}`;
+  if(p.includes('woolworths'))return`https://www.woolworths.com.au/shop/search/products?searchTerm=${q}`;
+  if(p.includes('temple & webster'))return`https://www.templeandwebster.com.au/search/${q}`;
+  if(p.includes('zalando'))return`https://www.zalando.de/suche/?q=${q}`;
+  if(p.includes('douglas'))return`https://www.douglas.de/de/search?search=${q}`;
+  if(p.includes('rewe'))return`https://shop.rewe.de/productList?search=${q}`;
+  if(p.includes('kaufland'))return`https://www.kaufland.de/suche/?search_value=${q}`;
+  if(p.includes('docmorris'))return`https://www.docmorris.de/search?q=${q}`;
+  if(p.includes('aponeo'))return`https://www.aponeo.de/suche/?q=${q}`;
+  if(p.includes('zozotown'))return`https://www.zozo.jp/search/?keyword=${q}`;
+  if(p.includes('nitori'))return`https://www.nitori-net.jp/ec/search/?q=${q}`;
+  if(p.includes('oisix'))return`https://www.oisix.com/search/list--${q}`;
+  if(p.includes('matsumoto kiyoshi'))return`https://hb.matsukiyo.com/search?q=${q}`;
+  if(p.includes('sportshopy'))return`https://www.sportshopy.com/search/?q=${q}`;
+  return null;
+}
+
+function getUrls(q,mkt){
+  const e=encodeURIComponent(q),h=e.replace(/%20/g,'-');
+  const maps={
+    IN:{'Amazon India':`https://www.amazon.in/s?k=${e}`,'Flipkart':`https://www.flipkart.com/search?q=${e}`,'Croma':`https://www.croma.com/searchB?q=${e}`,'Myntra':`https://www.myntra.com/${h}`,'Meesho':`https://meesho.com/search?q=${e}`,'Nykaa':`https://www.nykaa.com/search/result/?q=${e}`,'Tata CLiQ':`https://www.tatacliq.com/search/?searchCategory=all&text=${e}`,'Reliance Digital':`https://www.reliancedigital.in/search?q=${e}`},
+    US:{'Amazon':`https://www.amazon.com/s?k=${e}`,'Best Buy':`https://www.bestbuy.com/site/searchpage.jsp?st=${e}`,'Walmart':`https://www.walmart.com/search?q=${e}`,'Target':`https://www.target.com/s?searchTerm=${e}`,'Newegg':`https://www.newegg.com/p/pl?d=${e}`,'B&H Photo':`https://www.bhphotovideo.com/c/search?Ntt=${e}`},
+    GB:{'Amazon UK':`https://www.amazon.co.uk/s?k=${e}`,'Currys':`https://www.currys.co.uk/search?q=${e}`,'Argos':`https://www.argos.co.uk/search/${e}/`,'John Lewis':`https://www.johnlewis.com/search?search-term=${e}`,'AO':`https://ao.com/l/${h}/`,'Very':`https://www.very.co.uk/search?q=${e}`},
+    AE:{'Amazon UAE':`https://www.amazon.ae/s?k=${e}`,'Noon':`https://www.noon.com/uae-en/search?q=${e}`,'Sharaf DG':`https://www.sharafdg.com/search?q=${e}`,'Carrefour UAE':`https://www.carrefouruae.com/mafuae/en/c/FGED?text=${e}`},
+    SG:{'Lazada SG':`https://www.lazada.sg/catalog/?q=${e}`,'Shopee SG':`https://shopee.sg/search?keyword=${e}`,'Amazon SG':`https://www.amazon.sg/s?k=${e}`,'Courts SG':`https://www.courts.com.sg/search?q=${e}`,'Harvey Norman SG':`https://www.harveynorman.com.sg/search?q=${e}`},
+    AU:{'Amazon AU':`https://www.amazon.com.au/s?k=${e}`,'JB Hi-Fi':`https://www.jbhifi.com.au/search?q=${e}`,'Harvey Norman':`https://www.harveynorman.com.au/search?q=${e}`,'Officeworks':`https://www.officeworks.com.au/shop/officeworks/search?q=${e}`,'Kogan':`https://www.kogan.com/au/shop/?q=${e}`},
+    DE:{'Amazon Germany':`https://www.amazon.de/s?k=${e}`,'MediaMarkt':`https://www.mediamarkt.de/de/search.html?query=${e}`,'Saturn':`https://www.saturn.de/de/search.html?query=${e}`,'Otto':`https://www.otto.de/suche/${e}/`,'Cyberport':`https://www.cyberport.de/search/?keywords=${e}`},
+    JP:{'Amazon Japan':`https://www.amazon.co.jp/s?k=${e}`,'Rakuten':`https://search.rakuten.co.jp/search/mall/${e}/`,'Yodobashi':`https://www.yodobashi.com/?word=${e}`,'Bic Camera':`https://www.biccamera.com/bc/category/search.jsp?q=${e}`},
+  };
+  return Object.entries(maps[mkt]||maps.IN).map(([p,u])=>`${p}: ${u}`).join('\n');
+}
+
+async function runSearch(query){
+  query=(query||'').trim(); if(!query) return;
+  saveHistory(query);
+  S.query=query; S.platform='all'; S.sort='price_asc'; S.view='grid'; S.cidx=0;
+  const ws=document.getElementById('ws'), ls=document.getElementById('loadscr'), rs=document.getElementById('resultscr'), btn=document.getElementById('sbtn');
+  ws.classList.add('hidden'); rs.classList.add('hidden'); ls.classList.remove('hidden'); btn.disabled=true;
+
+  const dots=[0,1,2,3,4].map(i=>document.getElementById('s'+i));
+  dots.forEach(d=>{if(d)d.className='sdot';});
+  let si=0;
+  const iv=setInterval(()=>{
+    if(si>0&&dots[si-1])dots[si-1].className='sdot don';
+    if(si<dots.length&&dots[si]){dots[si].className='sdot act';si++;}
+    else clearInterval(iv);
+  },900);
+
+  const mk=MK[S.market]||MK.IN;
+  try{
+    await ctai.ready();
+    let result=await ctai.infer({
+      system:`You are an e-commerce price intelligence engine for ${mk.name}. Generate highly specific, realistic product listings using your training knowledge of real products and market prices. Rules: (1) Use exact product model names with full variant — never generic titles. (2) Use realistic non-round ${mk.sym} prices (e.g. ₹1,29,900 not ₹1,30,000). (3) Include real delivery timelines, actual EMI amounts with bank names, and authentic seller names. (4) Every field must be concrete — no placeholders, no vague text. (5) Each platform's listing must be distinctly different. (6) If you don't have exact data for the product, estimate from the closest known model. (7) You are UNIVERSAL — handle any product category: grocery/fresh produce, electronics, fashion, beauty, pharmacy/medicine, furniture, sports/fitness, books, food/FMCG, and more. Adapt your response to the category (e.g. for fresh produce: product_title = "Organic Fuji Apples 1kg", price = per kg/pack price, no EMI). RESPOND WITH ONLY RAW JSON — no markdown, no backticks, no explanation text whatsoever.`,
+      prompt:`Price check: "${query}" — ${mk.name} market (${mk.sym})
+
+Choose the 5-6 most relevant platforms for "${query}" from this ${mk.name} platform directory — pick based on the product's category, NOT just the most popular ones:
+${getMarketPlatforms(S.market)}
+
+Return EXACTLY one listing per platform. Every field must be specific — no placeholders, no round numbers:
+- product_title: full model + storage + colour as sold on that platform
+- price: specific non-round ${mk.sym} price from your training knowledge (e.g. ₹1,29,900 not ₹1,30,000)
+- mrp: original price if there is a discount
+- delivery_info: specific timeline (e.g. "Free by Wed Jun 25" or "Arrives in 2 days")
+- emi_info: amount + bank + tenure (e.g. "${mk.sym}2,166/mo HDFC Credit Card 0% 6m")
+- seller: exact seller name on that platform
+- rating: e.g. 4.3
+- reviews_count: e.g. 14852
+- key_highlight: one specific differentiating feature or deal
+
+Also return:
+- 6 exact technical specifications
+- 3–4 variants (storage + colour options)
+- 2-sentence deal insight on current market
+- 1-line buy verdict (good time to buy?)
+- 3 practical buying tips
+- Best time to buy mentioning: ${mk.sale}
+- Top cashback sources: ${mk.coupons.join(', ')}
+- 3 specific alternative products
+
+CRITICAL: You MUST return 4-6 listings. If you cannot find exact data for "${query}", estimate prices from the closest known model in the same product line. NEVER return an empty listings array — always generate your best estimate.
+
+Return ONLY this exact JSON structure — no markdown, no backticks, no explanation text, just raw JSON starting with { and ending with }:
+{"query_interpreted":"iPhone 17 Pro 256GB Natural Titanium","category":"Smartphones","emoji":"📱","deal_insight":"Strong launch demand keeps prices close to MRP. Flipkart Plus members get extra 5% off.","price_verdict":"Prices are steady. Wait for a sale event for deeper discounts.","listings":[{"platform":"Amazon India","product_title":"Apple iPhone 17 Pro 256GB Natural Titanium","variant":"256GB Natural Titanium","price":134900,"mrp":139900,"discount_pct":4,"rating":4.5,"reviews_count":3421,"availability":"In Stock","delivery_info":"Free delivery by Tomorrow","emi_info":"₹2,248/mo HDFC 0% 6m","seller":"Cloudtail India","badge":"Best Seller","key_highlight":"Fastest delivery with Prime, exclusive bank offer available"}],"specs":[{"key":"Display","value":"6.3 inch Super Retina XDR ProMotion"},{"key":"Chip","value":"A19 Pro"}],"variants":["128GB Black Titanium","256GB Natural Titanium","512GB Desert Titanium"],"buying_tips":["Use HDFC credit card for extra 5% cashback"],"best_time":"Wait for Diwali Great Indian Festival in October for best deals","coupon_sources":["HDFC Bank","ICICI Bank","PhonePe"],"alternatives":["Samsung Galaxy S25","Google Pixel 10 Pro","OnePlus 13R"]}`,
+      max_tokens:4000
+    });
+
+    clearInterval(iv); ls.classList.add('hidden');
+    // Fallback: if schema validation rejected the response, try parsing raw content
+    if(!result?.data?.listings?.length && result?.content){
+      try{
+        const _t=result.content.replace(/```json\n?/gi,'').replace(/```\n?/g,'').trim();
+        const _d=JSON.parse(_t);
+        const _l=_d?.listings||_d?.data?.listings||_d?.results;
+        if(_l?.length) result={...result,data:{..._d,listings:_l}};
+      }catch(_e){console.warn('[CM] fallback JSON parse failed:',_e?.message,result?.content?.slice(0,300));}
+    }
+    if(result?.data?.listings?.length){
+      // Use original clean query (not query_interpreted which may include variant specifics
+      // like "(256GB, Titanium)" that confuse platform search engines)
+      result.data.listings=result.data.listings.map(l=>({...l,search_url:buildPlatformUrl(l.platform,query)||l.search_url||'#'}));
+      S.data=result.data; rs.classList.remove('hidden'); renderAll(result.data,query);
+      saveProduct(query, result.data.category, result.data.emoji);
+    } else {
+      rs.innerHTML=`<div class="errbox">No listings found for "<strong>${esc(query)}</strong>". Try a more specific search term.</div>`; rs.classList.remove('hidden');
+    }
+  }catch(err){
+    clearInterval(iv); ls.classList.add('hidden');
+    rs.innerHTML=`<div class="errbox">Error: ${esc(err.message||'Something went wrong')}. Please try again.</div>`; rs.classList.remove('hidden');
+    console.error('[Compare Maadu]',err);
+  }finally{btn.disabled=false;}
+}
+
+/* ──────── EVENTS ──────── */
+document.getElementById('sbtn').addEventListener('click',()=>runSearch(document.getElementById('si').value));
+document.getElementById('si').addEventListener('keydown',e=>{if(e.key==='Enter')runSearch(e.target.value);});
+/* ── Autocomplete wiring ── */
+const _siEl=document.getElementById('si');
+_siEl.addEventListener('focus',()=>{if(!_siEl.value.trim())showHistory();});
+_siEl.addEventListener('input',e=>{clearTimeout(_sacT);_sacT=setTimeout(()=>{const v=e.target.value;if(!v.trim())showHistory();else showSuggestions(v);},180);});
+_siEl.addEventListener('blur',()=>setTimeout(()=>document.getElementById('sacdrop')?.classList.add('hidden'),160));
+_siEl.addEventListener('keydown',e=>{
+  const drop=document.getElementById('sacdrop');
+  if(!drop||drop.classList.contains('hidden'))return;
+  const items=[...drop.querySelectorAll('.sac-item')];
+  if(e.key==='ArrowDown'){e.preventDefault();_sacIdx=Math.min(_sacIdx+1,items.length-1);items.forEach((it,i)=>it.classList.toggle('sac-focused',i===_sacIdx));}
+  else if(e.key==='ArrowUp'){e.preventDefault();_sacIdx=Math.max(_sacIdx-1,0);items.forEach((it,i)=>it.classList.toggle('sac-focused',i===_sacIdx));}
+  else if(e.key==='Escape'){drop.classList.add('hidden');_sacIdx=-1;}
+  else if(e.key==='Enter'&&_sacIdx>=0&&items[_sacIdx]){e.preventDefault();const v=items[_sacIdx].dataset.val;_siEl.value=v;drop.classList.add('hidden');_sacIdx=-1;runSearch(v);}
+});
+document.getElementById('mktsel').addEventListener('change',e=>{S.market=e.target.value;syncMarket();});
+document.getElementById('mflags').addEventListener('click',e=>{const f=e.target.closest('.mfl');if(f){S.market=f.dataset.m;syncMarket();}});
+document.getElementById('mainarea').addEventListener('click',e=>{const c=e.target.closest('.qcard');if(c){document.getElementById('si').value=c.dataset.q;runSearch(c.dataset.q);}});
+document.addEventListener('keydown',e=>{
+  if(S.slides.length&&(e.key==='ArrowLeft'||e.key==='ArrowRight')&&document.activeElement!==document.getElementById('si')){
+    e.preventDefault(); goToSlide(e.key==='ArrowLeft'?S.cidx-1:S.cidx+1);
+  }
+});
+
+/* ──────── LINK OPENER ──────── */
+/* Load saved products from entity DB on startup */
+loadSavedProducts();refreshRates();setTimeout(()=>{if(!localStorage.getItem('cm_api_key'))showKeyModal();},300);
+function openLink(url){
+  if(!url||url==='#')return;
+  try{const w=(window.parent||window).open(url,'_blank','noopener,noreferrer');
+    if(!w){const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';document.body.appendChild(a);a.click();document.body.removeChild(a);}
+  }catch(e){const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';document.body.appendChild(a);a.click();document.body.removeChild(a);}
+}
+document.addEventListener('click',function(ev){const el=ev.target.closest('[data-url]');if(el){ev.preventDefault();openLink(el.dataset.url);}});
+
+/* ──────── INIT ──────── */
+renderQGrid(); syncMarket();
+</script>
+</body>
+</html>
